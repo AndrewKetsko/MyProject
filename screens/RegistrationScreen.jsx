@@ -5,54 +5,153 @@ import {
   Text,
   StyleSheet,
   ImageBackground,
+  Image,
+  TouchableOpacity,
 } from "react-native";
-// import Image from '../PhotoBG.jpj';
+import { AntDesign } from "@expo/vector-icons";
+import ImageBG from "../PhotoBG.jpg";
+import { useState } from "react";
 
 export default function RegistrationScreen() {
+  const [passwordVisible, setPasswordVisible] = useState(true);
+  const [photo, setPhoto] = useState(null);
+  const [focused, setFocused] = useState(null);
+
+  const setFocus = (e) => setFocused(e._dispatchInstances.memoizedProps.name);
+
+  const setBlur = () => setFocused(null);
+
   return (
-    // <ImageBackground
-    //   source={{ uri: "../PhotoBG.jpg" }}
-    //   style={{ flex: 1, width: null, height: null }}
-    // >
-    <View style={styles.container}>
-      <Text style={styles.header}>Registration</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Login"
-        placeholderTextColor={"#BDBDBD"}
-        textContentType="username"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        placeholderTextColor={"#BDBDBD"}
-        textContentType="emailAddress"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor={"#BDBDBD"}
-        textContentType="password"
-      />
-      <Button
-        style={styles.button}
-        color={"#FF6C00"}
-        title="Register"
-        onPress={() => {}}
-      />
-      <Text style={styles.text}>Have account? Login</Text>
-    </View>
-    // </ImageBackground>
+    <ImageBackground source={ImageBG} style={styles.imageBG}>
+      <View style={styles.container}>
+        {/* <Image style={styles.image} /> */}
+        <ImageBackground source={photo} style={styles.image}>
+          {!photo ? (
+            <AntDesign
+              name="pluscircleo"
+              size={24}
+              color="#FF6C00"
+              style={styles.icon}
+            />
+          ) : (
+            <AntDesign
+              name="closecircleo"
+              size={24}
+              color="#BDBDBD"
+              style={styles.icon}
+            />
+          )}
+        </ImageBackground>
+        <Text style={styles.header}>Registration</Text>
+        <TextInput
+          style={
+            focused === "login"
+              ? { ...styles.input, ...styles.focus }
+              : { ...styles.input }
+          }
+          placeholder="Login"
+          name='login'
+          placeholderTextColor={"#BDBDBD"}
+          textContentType="username"
+          onFocus={setFocus}
+          onBlur={setBlur}
+        />
+        <TextInput
+          style={
+            focused === "email"
+              ? { ...styles.input, ...styles.focus }
+              : { ...styles.input }
+          }
+          placeholder="Email"
+          name='email'
+          placeholderTextColor={"#BDBDBD"}
+          textContentType="emailAddress"
+          onFocus={setFocus}
+          onBlur={setBlur}
+        />
+        <TextInput
+          style={
+            focused === "password"
+              ? { ...styles.input, ...styles.focus }
+              : { ...styles.input }
+          }
+          placeholder="Password"
+          name='password'
+          placeholderTextColor={"#BDBDBD"}
+          textContentType="password"
+          secureTextEntry={true}
+          onFocus={setFocus}
+          onBlur={setBlur}
+          // right={
+          //   <TextInput.Icon
+          //     name={passwordVisible ? "eye" : "eye-off"}
+          //     onPress={() => setPasswordVisible(!passwordVisible)}
+          //   />
+          // }
+        />
+        {/* <Button
+            // style={styles.button}
+            // color={"#FF6C00"}
+            title="Register"
+            onPress={() => {}}
+          /> */}
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>Register</Text>
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Text style={styles.text}>Have account? Login</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-    container: {
-      
+  focus: {
+    backgroundColor: "#Ffffff",
+    borderColor: "#FF6C00",
+  },
+  container: {
+    position: "relative",
+    marginTop: "auto",
+    // borderWidth: 1,
+    // borderStyle: "solid",
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    paddingHorizontal: 16,
+    paddingTop: 92,
+    paddingBottom: 78,
+    backgroundColor: "white",
+    opacity: 1,
+  },
+  image: {
+    height: 120,
+    width: 120,
+    backgroundColor: "#F6F6F6",
+    position: "absolute",
+    top: -60,
+    left: "50%",
+    borderRadius: 16,
+    transform: [{ translateX: -50 }],
+    // overflow:'hidden',
+    // borderWidth: 1,
+    // borderStyle: "solid",
+  },
+  icon: {
+    position: "absolute",
+    right: -12,
+    bottom: 14,
+    zIndex: 100,
+  },
+  imageBG: {
+    flex: 1,
+    width: null,
+    height: null,
+    // opacity: 0.6
   },
   input: {
     height: 50,
-    width: 343,
+    width: null,
     backgroundColor: "#F6F6F6",
     // border: 1 'solid' '#E8E8E8',
     borderWidth: 1,
@@ -61,6 +160,16 @@ const styles = StyleSheet.create({
     borderColor: "#E8E8E8",
     marginBottom: 16,
     padding: 15,
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    // fontWeight: 400,
+    fontSize: 16,
+    lineHeight: 19,
+    /* identical to box height */
+
+    /* Gray/03 */
+
+    color: "#BDBDBD",
   },
   header: {
     // width: 160,
@@ -77,12 +186,22 @@ const styles = StyleSheet.create({
     marginBottom: 33,
   },
   button: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 100,
     height: 50,
-    width: 343,
+    width: null,
     backgroundColor: "#FF6C00",
-    marginTop: 43,
-    marginBottom: 16,
+    marginTop: 27,
+  },
+  buttonText: {
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    fontWeight: 400,
+    fontSize: 16,
+    lineHeight: 19,
+    color: "#FFFFFF",
   },
   text: {
     fontFamily: "Roboto",
