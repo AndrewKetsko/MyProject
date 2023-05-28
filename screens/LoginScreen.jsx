@@ -14,12 +14,15 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import ImageBG from "../PhotoBG.jpg";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { Entypo } from "@expo/vector-icons";
 
 export default function LoginScreen() {
   const [passwordVisible, setPasswordVisible] = useState(true);
   const [focused, setFocused] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigation = useNavigation();
 
   const setFocus = (e) => setFocused(e._dispatchInstances.memoizedProps.name);
 
@@ -27,6 +30,7 @@ export default function LoginScreen() {
 
   const onPress = () => {
     console.log("email:", email, "password:", password);
+    navigation.navigate("Home");
   };
 
   return (
@@ -72,26 +76,24 @@ export default function LoginScreen() {
               onChangeText={setPassword}
               onFocus={setFocus}
               onBlur={setBlur}
+              // <Entypo name="eye-with-line" size={24} color="black" />
+              // <Entypo name="eye" size={24} color="black" />
               // right={
               //   <TextInput.Icon
-              //     name={passwordVisible ? "eye" : "eye-off"}
+              //     name={passwordVisible ? "eye" : "eye-with-line"}
+              //     size={24}
+              //     color="black"
               //     onPress={() => setPasswordVisible(!passwordVisible)}
               //   />
               // }
             />
           </KeyboardAvoidingView>
-          {/* <Button
-            // style={styles.button}
-            // color={"#FF6C00"}
-            title="Register"
-            onPress={() => {}}
-          /> */}
           <TouchableOpacity style={styles.button} onPress={onPress}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
           <View style={styles.bottomText}>
             <Text style={styles.text}>Dont have account? </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("Register")}>
               <Text style={styles.text}>Register</Text>
             </TouchableOpacity>
           </View>

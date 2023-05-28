@@ -15,6 +15,7 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import ImageBG from "../PhotoBG.jpg";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 export default function RegistrationScreen() {
   const [passwordVisible, setPasswordVisible] = useState(true);
@@ -23,13 +24,15 @@ export default function RegistrationScreen() {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigation = useNavigation();
 
   const setFocus = (e) => setFocused(e._dispatchInstances.memoizedProps.name);
 
   const setBlur = () => setFocused(null);
 
-  const onPress = () => { 
-    console.log("login:", login, "email:", email, 'password:',password);
+  const onPress = () => {
+    console.log("login:", login, "email:", email, "password:", password);
+    navigation.navigate("Home");
   };
 
   return (
@@ -119,18 +122,12 @@ export default function RegistrationScreen() {
               // }
             />
           </KeyboardAvoidingView>
-          {/* <Button
-            // style={styles.button}
-            // color={"#FF6C00"}
-            title="Register"
-            onPress={() => {}}
-          /> */}
           <TouchableOpacity style={styles.button} onPress={onPress}>
             <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
           <View style={styles.bottomText}>
             <Text style={styles.text}>Have account? </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
               <Text style={styles.text}>Login</Text>
             </TouchableOpacity>
           </View>
@@ -199,10 +196,6 @@ const styles = StyleSheet.create({
     // fontWeight: 400,
     fontSize: 16,
     lineHeight: 19,
-    /* identical to box height */
-
-    /* Gray/03 */
-
     color: "#BDBDBD",
   },
   header: {
