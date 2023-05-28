@@ -7,6 +7,10 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import ImageBG from "../PhotoBG.jpg";
@@ -16,92 +20,122 @@ export default function RegistrationScreen() {
   const [passwordVisible, setPasswordVisible] = useState(true);
   const [photo, setPhoto] = useState(null);
   const [focused, setFocused] = useState(null);
+  const [login, setLogin] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const setFocus = (e) => setFocused(e._dispatchInstances.memoizedProps.name);
 
   const setBlur = () => setFocused(null);
 
+  const onPress = () => { 
+    console.log("login:", login, "email:", email, 'password:',password);
+  };
+
   return (
     <ImageBackground source={ImageBG} style={styles.imageBG}>
-      <View style={styles.container}>
-        {/* <Image style={styles.image} /> */}
-        <ImageBackground source={photo} style={styles.image}>
-          {!photo ? (
-            <AntDesign
-              name="pluscircleo"
-              size={24}
-              color="#FF6C00"
-              style={styles.icon}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          {/* <Image style={styles.image} /> */}
+          <ImageBackground source={photo} style={styles.image}>
+            {!photo ? (
+              <AntDesign
+                name="pluscircleo"
+                size={24}
+                color="#FF6C00"
+                style={styles.icon}
+              />
+            ) : (
+              <AntDesign
+                name="closecircleo"
+                size={24}
+                color="#BDBDBD"
+                style={styles.icon}
+              />
+            )}
+          </ImageBackground>
+          <Text style={styles.header}>Registration</Text>
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
+            <TextInput
+              style={
+                focused === "login"
+                  ? { ...styles.input, ...styles.focus }
+                  : { ...styles.input }
+              }
+              placeholder="Login"
+              name="login"
+              placeholderTextColor={"#BDBDBD"}
+              textContentType="username"
+              value={login}
+              onChangeText={setLogin}
+              onFocus={setFocus}
+              onBlur={setBlur}
             />
-          ) : (
-            <AntDesign
-              name="closecircleo"
-              size={24}
-              color="#BDBDBD"
-              style={styles.icon}
+          </KeyboardAvoidingView>
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
+            <TextInput
+              style={
+                focused === "email"
+                  ? { ...styles.input, ...styles.focus }
+                  : { ...styles.input }
+              }
+              placeholder="Email"
+              name="email"
+              placeholderTextColor={"#BDBDBD"}
+              textContentType="emailAddress"
+              value={email}
+              onChangeText={setEmail}
+              onFocus={setFocus}
+              onBlur={setBlur}
             />
-          )}
-        </ImageBackground>
-        <Text style={styles.header}>Registration</Text>
-        <TextInput
-          style={
-            focused === "login"
-              ? { ...styles.input, ...styles.focus }
-              : { ...styles.input }
-          }
-          placeholder="Login"
-          name='login'
-          placeholderTextColor={"#BDBDBD"}
-          textContentType="username"
-          onFocus={setFocus}
-          onBlur={setBlur}
-        />
-        <TextInput
-          style={
-            focused === "email"
-              ? { ...styles.input, ...styles.focus }
-              : { ...styles.input }
-          }
-          placeholder="Email"
-          name='email'
-          placeholderTextColor={"#BDBDBD"}
-          textContentType="emailAddress"
-          onFocus={setFocus}
-          onBlur={setBlur}
-        />
-        <TextInput
-          style={
-            focused === "password"
-              ? { ...styles.input, ...styles.focus }
-              : { ...styles.input }
-          }
-          placeholder="Password"
-          name='password'
-          placeholderTextColor={"#BDBDBD"}
-          textContentType="password"
-          secureTextEntry={true}
-          onFocus={setFocus}
-          onBlur={setBlur}
-          // right={
-          //   <TextInput.Icon
-          //     name={passwordVisible ? "eye" : "eye-off"}
-          //     onPress={() => setPasswordVisible(!passwordVisible)}
-          //   />
-          // }
-        />
-        {/* <Button
+          </KeyboardAvoidingView>
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
+            <TextInput
+              style={
+                focused === "password"
+                  ? { ...styles.input, ...styles.focus }
+                  : { ...styles.input }
+              }
+              placeholder="Password"
+              name="password"
+              placeholderTextColor={"#BDBDBD"}
+              textContentType="password"
+              secureTextEntry={true}
+              value={password}
+              onChangeText={setPassword}
+              onFocus={setFocus}
+              onBlur={setBlur}
+              // right={
+              //   <TextInput.Icon
+              //     name={passwordVisible ? "eye" : "eye-off"}
+              //     onPress={() => setPasswordVisible(!passwordVisible)}
+              //   />
+              // }
+            />
+          </KeyboardAvoidingView>
+          {/* <Button
             // style={styles.button}
             // color={"#FF6C00"}
             title="Register"
             onPress={() => {}}
           /> */}
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Register</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.text}>Have account? Login</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity style={styles.button} onPress={onPress}>
+            <Text style={styles.buttonText}>Register</Text>
+          </TouchableOpacity>
+          <View style={styles.bottomText}>
+            <Text style={styles.text}>Have account? </Text>
+            <TouchableOpacity>
+              <Text style={styles.text}>Login</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
     </ImageBackground>
   );
 }
@@ -212,5 +246,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#1B4371",
     marginTop: 16,
+  },
+  bottomText: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
   },
 });

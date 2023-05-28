@@ -7,6 +7,9 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import ImageBG from "../PhotoBG.jpg";
@@ -15,63 +18,85 @@ import { useState } from "react";
 export default function LoginScreen() {
   const [passwordVisible, setPasswordVisible] = useState(true);
   const [focused, setFocused] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const setFocus = (e) =>
-    setFocused(e._dispatchInstances.memoizedProps.name);
+  const setFocus = (e) => setFocused(e._dispatchInstances.memoizedProps.name);
 
   const setBlur = () => setFocused(null);
 
+  const onPress = () => {
+    console.log("email:", email, "password:", password);
+  };
+
   return (
     <ImageBackground source={ImageBG} style={styles.imageBG}>
-      <View style={styles.container}>
-        {/* <Image style={styles.image} /> */}
-        <Text style={styles.header}>Login</Text>
-        <TextInput
-          style={
-            focused === "email"
-              ? { ...styles.input, ...styles.focus }
-              : { ...styles.input }
-          }
-          placeholder="Email"
-          name="email"
-          placeholderTextColor={"#BDBDBD"}
-          textContentType="emailAddress"
-          onFocus={setFocus}
-          onBlur={setBlur}
-        />
-        <TextInput
-          style={
-            focused === "password"
-              ? { ...styles.input, ...styles.focus }
-              : { ...styles.input }
-          }
-          placeholder="Password"
-          name="password"
-          placeholderTextColor={"#BDBDBD"}
-          textContentType="password"
-          secureTextEntry={true}
-          onFocus={setFocus}
-          onBlur={setBlur}
-          // right={
-          //   <TextInput.Icon
-          //     name={passwordVisible ? "eye" : "eye-off"}
-          //     onPress={() => setPasswordVisible(!passwordVisible)}
-          //   />
-          // }
-        />
-        {/* <Button
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          {/* <Image style={styles.image} /> */}
+          <Text style={styles.header}>Login</Text>
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
+            <TextInput
+              style={
+                focused === "email"
+                  ? { ...styles.input, ...styles.focus }
+                  : { ...styles.input }
+              }
+              placeholder="Email"
+              name="email"
+              placeholderTextColor={"#BDBDBD"}
+              textContentType="emailAddress"
+              value={email}
+              onChangeText={setEmail}
+              onFocus={setFocus}
+              onBlur={setBlur}
+            />
+          </KeyboardAvoidingView>
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
+          >
+            <TextInput
+              style={
+                focused === "password"
+                  ? { ...styles.input, ...styles.focus }
+                  : { ...styles.input }
+              }
+              placeholder="Password"
+              name="password"
+              placeholderTextColor={"#BDBDBD"}
+              textContentType="password"
+              secureTextEntry={true}
+              value={password}
+              onChangeText={setPassword}
+              onFocus={setFocus}
+              onBlur={setBlur}
+              // right={
+              //   <TextInput.Icon
+              //     name={passwordVisible ? "eye" : "eye-off"}
+              //     onPress={() => setPasswordVisible(!passwordVisible)}
+              //   />
+              // }
+            />
+          </KeyboardAvoidingView>
+          {/* <Button
             // style={styles.button}
             // color={"#FF6C00"}
             title="Register"
             onPress={() => {}}
           /> */}
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Text style={styles.text}>Dont have account? Register</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity style={styles.button} onPress={onPress}>
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+          <View style={styles.bottomText}>
+            <Text style={styles.text}>Dont have account? </Text>
+            <TouchableOpacity>
+              <Text style={styles.text}>Register</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
     </ImageBackground>
   );
 }
@@ -132,13 +157,8 @@ const styles = StyleSheet.create({
     padding: 15,
     fontFamily: "Roboto",
     fontStyle: "normal",
-    // fontWeight: 400,
     fontSize: 16,
     lineHeight: 19,
-    /* identical to box height */
-
-    /* Gray/03 */
-
     color: "#BDBDBD",
   },
   header: {
@@ -182,5 +202,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#1B4371",
     marginTop: 16,
+  },
+  bottomText: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
   },
 });
