@@ -30,7 +30,7 @@ export default function LoginScreen() {
 
   const onPress = () => {
     console.log("email:", email, "password:", password);
-    navigation.navigate("Home");
+    navigation.navigate("Home", { screen: "Posts" });
   };
 
   return (
@@ -57,10 +57,6 @@ export default function LoginScreen() {
               onFocus={setFocus}
               onBlur={setBlur}
             />
-          </KeyboardAvoidingView>
-          <KeyboardAvoidingView
-            behavior={Platform.OS == "ios" ? "padding" : "height"}
-          >
             <View style={{ position: "relative" }}>
               <TextInput
                 style={

@@ -108,4 +108,12 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
   },
+  bottomNavigation: {
+    height: 40,
+    width: 70,
+    borderRadius: 20,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });

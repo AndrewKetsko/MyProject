@@ -34,7 +34,7 @@ export default function RegistrationScreen() {
 
   const onPress = () => {
     console.log("login:", login, "email:", email, "password:", password);
-    navigation.navigate("Home");
+    navigation.navigate("Home",{ screen:'Posts'});
   };
 
   return (
@@ -78,10 +78,6 @@ export default function RegistrationScreen() {
               onFocus={setFocus}
               onBlur={setBlur}
             />
-          </KeyboardAvoidingView>
-          <KeyboardAvoidingView
-            behavior={Platform.OS == "ios" ? "padding" : "height"}
-          >
             <TextInput
               style={
                 focused === "email"
@@ -97,10 +93,6 @@ export default function RegistrationScreen() {
               onFocus={setFocus}
               onBlur={setBlur}
             />
-          </KeyboardAvoidingView>
-          <KeyboardAvoidingView
-            behavior={Platform.OS == "ios" ? "padding" : "height"}
-          >
             <View style={{ position: "relative" }}>
               <TextInput
                 style={
