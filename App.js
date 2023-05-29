@@ -20,9 +20,11 @@ export default function App() {
 
   return (
     <>
-      <StatusBar style="auto" />
       <NavigationContainer>
-        <MainNav.Navigator initialRouteName="Login">
+        <MainNav.Navigator
+          initialRouteName="Login"
+          screenOptions={{ headerShown:false }}
+        >
           <MainNav.Screen name="Login" component={LoginScreen} />
           <MainNav.Screen name="Register" component={RegistrationScreen} />
           <MainNav.Screen
@@ -30,16 +32,6 @@ export default function App() {
             component={Home}
             options={{
               title: "Posts",
-              headerStyle: {},
-              headerTitleStyle: {},
-              headerRight: () => (
-                <MaterialIcons
-                  name="logout"
-                  size={24}
-                  color="black"
-                  // onPress={() => navigation.navigate("Login")}
-                />
-              ),
             }}
           />
         </MainNav.Navigator>
@@ -47,12 +39,3 @@ export default function App() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    // alignItems: "center",
-    // justifyContent: "center",
-  },
-});

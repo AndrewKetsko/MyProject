@@ -116,4 +116,22 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  customHeader: {
+    position: "relative",
+    // display: "flex",
+    // flexDirection: "row",
+    paddingVertical: 11,
+    borderBottomWidth: 1,
+    borderColor: "#BDBDBD",
+  },
+  customHeaderText: {
+    fontFamily: "Roboto",
+    fontStyle: "normal",
+    fontWeight: 500,
+    fontSize: 17,
+    lineHeight: 22,
+    textAlign: "center",
+    letterSpacing: -0.408,
+    color: "#212121",
+  },
 });

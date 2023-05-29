@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import PostsScreen from "./PostsScreen";
 import CreatePostsScreen from "./CreatePostsScreen";
@@ -14,15 +14,39 @@ import { styles } from "./scc";
 
 const HomeNav = createBottomTabNavigator();
 
+const CustomHeader = ({ title, options }) => {
+  const navigation = useNavigation();
+
+  return (
+    <>
+      <View style={styles.customHeader}>
+        <Text style={styles.customHeaderText}>{title}</Text>
+        <MaterialIcons
+          name="logout"
+          size={24}
+          color="#BDBDBD"
+          style={{
+            marginLeft: "auto",
+            position: "absolute",
+            right: 10,
+            top: 10,
+          }}
+          onPress={() => navigation.navigate("Login")}
+        />
+      </View>
+    </>
+  );
+};
+
 export default function Home({ navigation }) {
   return (
     <>
-      {/* <StatusBar style="auto" /> */}
       <HomeNav.Navigator
         initialRouteName="Posts"
         backBehavior="none"
         // headerShown='false'
         screenOptions={({ route }) => ({
+          tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
             let iconName;
             if (route.name === "Posts") {
@@ -81,13 +105,22 @@ export default function Home({ navigation }) {
             }
           },
         })}
-        
       >
-        <HomeNav.Screen name="Posts" component={PostsScreen} />
+        <HomeNav.Screen
+          name="Posts"
+          component={PostsScreen}
+          options={{
+            header: ({ navigation, route, options }) => {
+              const title = route.name;
+              return (
+                <CustomHeader title={title} options={options.headerStyle} />
+              );
+            },
+          }}
+        />
         <HomeNav.Screen name="CreatePost" component={CreatePostsScreen} />
         <HomeNav.Screen name="Profile" component={ProfileScreen} />
       </HomeNav.Navigator>
-      {/* <MaterialIcons name="logout" size={24} color="black" /> */}
     </>
   );
 }
