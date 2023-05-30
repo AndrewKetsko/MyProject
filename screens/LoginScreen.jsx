@@ -24,6 +24,8 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
+  const haveParam = email && password;
+
   const setFocus = (e) => setFocused(e._dispatchInstances.memoizedProps.name);
 
   const setBlur = () => setFocused(null);
@@ -87,7 +89,15 @@ export default function LoginScreen() {
               />
             </View>
           </KeyboardAvoidingView>
-          <TouchableOpacity style={styles.button} onPress={onPress}>
+          <TouchableOpacity
+            style={
+              haveParam
+                ? styles.button
+                : { ...styles.button, backgroundColor: "#bdbdbd" }
+            }
+            onPress={onPress}
+            disabled={!haveParam}
+          >
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
           <View style={styles.bottomText}>

@@ -21,18 +21,33 @@ const CustomHeader = ({ title, options }) => {
     <>
       <View style={styles.customHeader}>
         <Text style={styles.customHeaderText}>{title}</Text>
-        <MaterialIcons
-          name="logout"
-          size={24}
-          color="#BDBDBD"
-          style={{
-            marginLeft: "auto",
-            position: "absolute",
-            right: 10,
-            top: 10,
-          }}
-          onPress={() => navigation.navigate("Login")}
-        />
+        {title === "Posts" ? (
+          <MaterialIcons
+            name="logout"
+            size={24}
+            color="#BDBDBD"
+            style={{
+              marginLeft: "auto",
+              position: "absolute",
+              right: 10,
+              top: 10,
+            }}
+            onPress={() => navigation.navigate("Login")}
+          />
+        ) : (
+          <AntDesign
+            name="arrowleft"
+            size={24}
+            color="#BDBDBD"
+            style={{
+              marginLeft: "auto",
+              position: "absolute",
+              left: 10,
+              top: 10,
+            }}
+            onPress={() => navigation.navigate("Posts")}
+          />
+        )}
       </View>
     </>
   );
@@ -118,8 +133,25 @@ export default function Home({ navigation }) {
             },
           }}
         />
-        <HomeNav.Screen name="CreatePost" component={CreatePostsScreen} />
-        <HomeNav.Screen name="Profile" component={ProfileScreen} />
+        <HomeNav.Screen
+          name="CreatePost"
+          component={CreatePostsScreen}
+          options={{
+            header: ({ navigation, route, options }) => {
+              const title = route.name;
+              return (
+                <CustomHeader title={title} options={options.headerStyle} />
+              );
+            },
+          }}
+        />
+        <HomeNav.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
       </HomeNav.Navigator>
     </>
   );

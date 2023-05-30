@@ -28,13 +28,15 @@ export default function RegistrationScreen() {
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
+  const haveParam = email && password && login;
+
   const setFocus = (e) => setFocused(e._dispatchInstances.memoizedProps.name);
 
   const setBlur = () => setFocused(null);
 
   const onPress = () => {
     console.log("login:", login, "email:", email, "password:", password);
-    navigation.navigate("Home",{ screen:'Posts'});
+    navigation.navigate("Home", { screen: "Posts" });
   };
 
   return (
@@ -123,7 +125,14 @@ export default function RegistrationScreen() {
               />
             </View>
           </KeyboardAvoidingView>
-          <TouchableOpacity style={styles.button} onPress={onPress}>
+          <TouchableOpacity
+            style={
+              haveParam
+                ? styles.button
+                : { ...styles.button, backgroundColor: "#bdbdbd" }
+            }
+            onPress={onPress}
+          >
             <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
           <View style={styles.bottomText}>
