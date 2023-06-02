@@ -13,8 +13,17 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
+import Post from "./Post";
+import CommentsScreen from "./CommentsScreen";
+import MapScreen from "./MapScreen";
+import { CustomHeader } from "./CustomHeader";
+import { useState } from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+
+// const PostNav = createStackNavigator();
 
 export default function PostsScreen() {
+  const [posts, setPosts] = useState([1, 2, 3]);
   return (
     <>
       <View style={postStyles.container}>
@@ -34,7 +43,11 @@ export default function PostsScreen() {
           </View>
         </View>
       </View>
-      <ScrollView></ScrollView>
+      <ScrollView style={{ paddingHorizontal: 16 }}>
+        {posts.map((el) => (
+          <Post key={el}></Post>
+        ))}
+      </ScrollView>
     </>
   );
 }

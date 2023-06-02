@@ -11,47 +11,12 @@ import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { styles } from "./scc";
+import CommentsScreen from "./CommentsScreen";
+import MapScreen from "./MapScreen";
+import { CustomHeader } from "./CustomHeader";
 
 const HomeNav = createBottomTabNavigator();
-
-const CustomHeader = ({ title, options }) => {
-  const navigation = useNavigation();
-
-  return (
-    <>
-      <View style={styles.customHeader}>
-        <Text style={styles.customHeaderText}>{title}</Text>
-        {title === "Posts" ? (
-          <MaterialIcons
-            name="logout"
-            size={24}
-            color="#BDBDBD"
-            style={{
-              marginLeft: "auto",
-              position: "absolute",
-              right: 10,
-              top: 10,
-            }}
-            onPress={() => navigation.navigate("Login")}
-          />
-        ) : (
-          <AntDesign
-            name="arrowleft"
-            size={24}
-            color="#BDBDBD"
-            style={{
-              marginLeft: "auto",
-              position: "absolute",
-              left: 10,
-              top: 10,
-            }}
-            onPress={() => navigation.navigate("Posts")}
-          />
-        )}
-      </View>
-    </>
-  );
-};
+// const PostNav = createStackNavigator();
 
 export default function Home({ navigation }) {
   return (
@@ -152,7 +117,72 @@ export default function Home({ navigation }) {
             headerShown: false,
           }}
         />
+        {/* <HomeNav.Screen
+          name="Comments"
+          component={CommentsScreen}
+          options={{
+            header: ({ navigation, route, options }) => {
+              const title = route.name;
+              return (
+                <CustomHeader title={title} options={options.headerStyle} />
+              );
+            },
+            tabBarIcon: () => {},
+          }}
+          // options={{
+          //   headerShown: false,
+          // }}
+        />
+        <HomeNav.Screen
+          name="Map"
+          component={MapScreen}
+          options={{
+            header: ({ navigation, route, options }) => {
+              const title = route.name;
+              return (
+                <CustomHeader title={title} options={options.headerStyle} />
+              );
+            },
+            tabBarIcon: () => {return (
+              <Feather
+                name="user"
+                size={0}
+                color={"#ffffff"}
+              />
+            );},
+          }}
+          // options={{
+          //   headerShown: false,
+          // }}
+        /> */}
       </HomeNav.Navigator>
+
+      {/* <PostNav.Navigator>
+        <PostNav.Screen
+          name="Comments"
+          component={CommentsScreen}
+          options={{
+            header: ({ navigation, route, options }) => {
+              const title = route.name;
+              return (
+                <CustomHeader title={title} options={options.headerStyle} />
+              );
+            },
+          }}
+        />
+        <PostNav.Screen
+          name="Map"
+          component={MapScreen}
+          options={{
+            header: ({ navigation, route, options }) => {
+              const title = route.name;
+              return (
+                <CustomHeader title={title} options={options.headerStyle} />
+              );
+            },
+          }}
+        />
+      </PostNav.Navigator> */}
     </>
   );
 }
