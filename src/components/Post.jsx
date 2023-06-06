@@ -12,18 +12,19 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
-  Dimensions
+  Dimensions,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-export default function Post() {
+export default function Post({ data }) {
   const navigation = useNavigation();
+  const { geoLocation, location, name, photoUri } = data;
   return (
     <View style={postStyles.container}>
-      <Image style={postStyles.image} />
-      <Text style={{ ...postStyles.text, marginBottom: 11 }}>Name</Text>
+      <Image style={postStyles.image} source={{ uri: photoUri }} />
+      <Text style={{ ...postStyles.text, marginBottom: 11 }}>{name}</Text>
       <View
         style={{
           display: "flex",
@@ -47,9 +48,11 @@ export default function Post() {
             name="enviromento"
             size={24}
             color="#BDBDBD"
-            onPress={() => navigation.navigate("Map")}
+            onPress={() =>
+              navigation.navigate("Map", { geoLocation, location, name })
+            }
           />
-          <Text style={{ ...postStyles.text, marginLeft: 8 }}>Location</Text>
+          <Text style={{ ...postStyles.text, marginLeft: 8 }}>{location}</Text>
         </View>
       </View>
     </View>

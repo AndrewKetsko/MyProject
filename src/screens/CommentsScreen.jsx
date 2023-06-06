@@ -13,13 +13,13 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { postStyles } from "./Post";
+import { postStyles } from "../components/Post";
 import { useState } from "react";
-import Comment from "./Comment";
+import Comment from "../components/Comment";
 import { AntDesign } from "@expo/vector-icons";
 
 export default function CommentsScreen() {
-  const [comments, setComments] = useState([1, 2, 3,4,5]);
+  const [comments, setComments] = useState([1, 2, 3, 4, 5]);
   const [newComment, setNewComment] = useState("");
 
   return (

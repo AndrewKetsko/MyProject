@@ -13,17 +13,21 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import Post from "./Post";
-import CommentsScreen from "./CommentsScreen";
-import MapScreen from "./MapScreen";
-import { CustomHeader } from "./CustomHeader";
+import Post from "../components/Post";
+// import CommentsScreen from "./CommentsScreen";
+// import MapScreen from "./MapScreen";
+// import { CustomHeader } from "../components/CustomHeader";
 import { useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useSelector } from "react-redux";
 
 // const PostNav = createStackNavigator();
 
 export default function PostsScreen() {
-  const [posts, setPosts] = useState([1, 2, 3]);
+  const posts = useSelector((state) => state.posts.posts);
+  console.log(posts);
+  const { email, login, photo } = useSelector((state) => state.user);
+
   return (
     <>
       <View style={postStyles.container}>
@@ -35,19 +39,21 @@ export default function PostsScreen() {
           }}
         >
           <View>
-            <ImageBackground source={null} style={postStyles.image} />
+            <ImageBackground source={photo} style={postStyles.image} />
           </View>
           <View>
-            <Text style={postStyles.name}>Your Name</Text>
-            <Text style={postStyles.email}>Your@Email</Text>
+            <Text style={postStyles.name}>{login}</Text>
+            <Text style={postStyles.email}>{email}</Text>
           </View>
         </View>
       </View>
-      <ScrollView style={{ paddingHorizontal: 16 }}>
-        {posts.map((el) => (
-          <Post key={el}></Post>
-        ))}
-      </ScrollView>
+      {posts && (
+        <ScrollView style={{ paddingHorizontal: 16, paddingVertical: 5 }}>
+          {posts.map((el) => (
+            <Post key={el.name} data={el}></Post>
+          ))}
+        </ScrollView>
+      )}
     </>
   );
 }

@@ -17,12 +17,17 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
 import { styles } from "./scc";
+import { useDispatch } from "react-redux";
+import { delPost, loginUser } from "../redux/slice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export default function LoginScreen() {
   const [passwordVisible, setPasswordVisible] = useState(true);
   const [focused, setFocused] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const haveParam = email && password;
 
@@ -30,8 +35,15 @@ export default function LoginScreen() {
 
   const setBlur = () => setFocused(null);
 
+  // dispatch(delPost());
+
   const onPress = () => {
     console.log("email:", email, "password:", password);
+    const user = {
+      email,
+      password,
+    };
+    dispatch(loginUser(user));
     navigation.navigate("Home", { screen: "Posts" });
   };
 

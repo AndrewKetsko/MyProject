@@ -1,8 +1,10 @@
 import {
   Text,
   View,
+  ScrollView,
   StyleSheet,
   Image,
+  ImageBackground,
   TouchableOpacity,
   Keyboard,
   KeyboardAvoidingView,
@@ -17,6 +19,8 @@ import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
 import { styles } from "./scc";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { addPost } from "../redux/slice";
 
 export default function CreatePostsScreen() {
   const [permission, setPermission] = useState(null);
@@ -29,6 +33,7 @@ export default function CreatePostsScreen() {
 
   const haveParam = photoUri && !!name && !!location;
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -61,8 +66,17 @@ export default function CreatePostsScreen() {
     navigation.navigate("Posts");
   }
 
-  const onPostPress = () => {
-    //do something
+  const onPostPress = async () => {
+    const photoAssets = await MediaLibrary.createAssetAsync(photoUri);
+    const post = {
+      name,
+      location,
+      geoLocation,
+      photoUri,
+      photoAssets,
+    };
+    console.log(post);
+    dispatch(addPost(post));
     onDelPress();
     navigation.navigate("Posts");
   };
@@ -73,9 +87,15 @@ export default function CreatePostsScreen() {
     setGeoLocation(null);
   };
 
+  // const getImage = async () => {
+  //   const asset = await MediaLibrary.getAssetInfoAsync(photoUri);
+  //   console.log(asset.uri);
+  //   return asset.uri;
+  // };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View
+      <ScrollView
         style={{
           paddingHorizontal: 16,
           paddingTop: 32,
@@ -85,30 +105,57 @@ export default function CreatePostsScreen() {
           display: "flex",
         }}
       >
-        <Camera
-          style={innerStyles.imageContainer}
-          type={type}
-          ref={setCameraRef}
-        >
-          <View>
-            <View style={innerStyles.photoIcon}>
-              <MaterialIcons
-                name="photo-camera"
-                size={24}
-                color={!photoUri ? "#BDBDBD" : "white"}
-                onPress={async () => {
-                  if (cameraRef) {
-                    const { uri } = await cameraRef.takePictureAsync();
-                    setPhotoUri(uri);
-                    await MediaLibrary.createAssetAsync(uri);
-                  }
-                }}
-              />
+        {photoUri ? (
+          <ImageBackground
+            style={innerStyles.imageContainer}
+            source={{
+              uri: photoUri,
+            }}
+          >
+            <View>
+              <View style={innerStyles.photoIcon}>
+                <MaterialIcons
+                  name="photo-camera"
+                  size={24}
+                  color={!photoUri ? "#BDBDBD" : "white"}
+                  onPress={async () => {
+                    if (photoUri) {
+                      // await MediaLibrary.deleteAssetsAsync(photoUri);
+                      setPhotoUri(null);
+                    }
+                  }}
+                />
+              </View>
             </View>
-          </View>
-        </Camera>
+          </ImageBackground>
+        ) : (
+          <Camera
+            style={innerStyles.imageContainer}
+            type={type}
+            ref={setCameraRef}
+          >
+            <View>
+              <View style={innerStyles.photoIcon}>
+                <MaterialIcons
+                  name="photo-camera"
+                  size={24}
+                  color={!photoUri ? "#BDBDBD" : "white"}
+                  onPress={async () => {
+                    if (cameraRef) {
+                      const { uri } = await cameraRef.takePictureAsync();
+                      // const asset = await MediaLibrary.createAssetAsync(uri);
+                      // console.log(uri);
+                      // console.log(asset);
+                      setPhotoUri(uri);
+                    }
+                  }}
+                />
+              </View>
+            </View>
+          </Camera>
+        )}
         <TouchableOpacity
-          style={styles.flipContainer}
+          style={styles.text}
           onPress={() => {
             setType(
               type === Camera.Constants.Type.back
@@ -193,7 +240,7 @@ export default function CreatePostsScreen() {
             onPress={onDelPress}
           />
         </View>
-      </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 }
