@@ -81,18 +81,10 @@ export const setStorage = async (data) => {
     ref(storage, `posts/${data.photoAssets.creationTime}.jpg`),
     data.photoAssets.uri
   );
-  console.log(snapshot);
-
-  const url = await getDownloadURL(
-    ref(storage, `posts/${data.photoAssets.creationTime}.jpg`)
-  );
-  console.log(url);
-  // return url;
-
-  const image = await getBytes(
-    ref(storage, `posts/${data.photoAssets.creationTime}.jpg`)
-  );
-  console.log(image);
-
+  const url = await getDownloadURL(snapshot.ref);
+  //the same result is
+  // const url = await getDownloadURL(
+  //   ref(storage, `posts/${data.photoAssets.creationTime}.jpg`)
+  // );
   return url;
 };
