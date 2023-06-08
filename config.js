@@ -87,4 +87,4 @@ export const setStorage = async (data) => {
   //   ref(storage, `posts/${data.photoAssets.creationTime}.jpg`)
   // );
   return url;
-};
+}; 
