@@ -1,0 +1,17 @@
+{
+    "_converter": null, 
+    "_document": {"createTime": {"timestamp": [ot]}, 
+    "data": {"value": [Object]},
+    "documentState": 0, 
+    "documentType": 1, 
+    "key": {"path": [at]}, 
+    "readTime": {"timestamp": [ot]}, 
+    "version": {"timestamp": [ot]}}, 
+    "_firestore": {"app": [FirebaseAppImpl], 
+    "databaseId": [Le], 
+    "settings": [fh]}, 
+    "_firestoreImpl": {"app": [FirebaseAppImpl], 
+    "databaseId": [Le], "settings": [fh]}, 
+    "_key": {"path": {"len": 2, "offset": 0, "segments": [Array]}}, 
+    "_userDataWriter": {"firestore": [Object]}, 
+    "metadata": {"fromCache": false, "hasPendingWrites": false}}       

@@ -19,8 +19,9 @@ import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
 import { styles } from "./scc";
 import { useNavigation } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addPost } from "../redux/slice";
+import { setPost, setStorage } from "../../config";
 
 export default function CreatePostsScreen() {
   const [permission, setPermission] = useState(null);
@@ -34,6 +35,7 @@ export default function CreatePostsScreen() {
   const haveParam = photoUri && !!name && !!location;
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const uid = useSelector((state) => state.user.uid);
 
   useEffect(() => {
     (async () => {
@@ -75,11 +77,16 @@ export default function CreatePostsScreen() {
       photoUri,
       photoAssets,
     };
-    console.log(post);
-    dispatch(addPost(post));
+    // console.log(post);
+    const url = await setStorage({ ...post, uid });
+    // console.log({ ...post, uid });
+    dispatch(addPost({ ...post, url, uid }));
+    // console.log({ ...post, url, uid });
+    // setPost({...post, uid});
     onDelPress();
     navigation.navigate("Posts");
   };
+
   const onDelPress = () => {
     setPhotoUri(null);
     setName("");

@@ -9,7 +9,7 @@ export const postsSlice = createSlice({
   },
   reducers: {
     addPost(state, action) {
-      console.log(action.payload);
+      // console.log(action.payload);
       state.posts.push(action.payload);
     },
     delPost(state, action) {
@@ -50,19 +50,24 @@ export const userSlice = createSlice({
   initialState: {
     email: "",
     login: "no name",
-    password: "",
+    // password: "",
     photo: null,
+    uid: null,
   },
   reducers: {
     createUser(state, action) {
       state.email = action.payload.email;
       state.login = action.payload.login;
-      state.password = action.payload.password;
+      // state.password = action.payload.password;
       state.photo = action.payload.photo;
+      state.uid = action.payload.uid;
     },
     loginUser(state, action) {
       state.email = action.payload.email;
-      state.password = action.payload.password;
+      // state.password = action.payload.password;
+      state.login = action.payload.login;
+      state.photo = action.payload.photo;
+      state.uid = action.payload.uid;
     },
   },
   // extraReducers: (builder) => {

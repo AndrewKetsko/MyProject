@@ -11,6 +11,9 @@ import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { styles } from "../screens/scc";
+import { signOut } from "firebase/auth";
+import { auth } from "../../config";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // import CommentsScreen from "../../screens/CommentsScreen";
 // import MapScreen from "../../screens/MapScreen";
 
@@ -32,7 +35,14 @@ export const CustomHeader = ({ title, options }) => {
               right: 10,
               top: 10,
             }}
-            onPress={() => navigation.navigate("Login")}
+            onPress={() =>
+              signOut(auth)
+                .then(() => AsyncStorage.clear())
+                .then(() => navigation.navigate("Login"))
+                .catch((error) => {
+                  console.log(error.message);
+                })
+            }
           />
         ) : (
           <AntDesign
@@ -45,7 +55,7 @@ export const CustomHeader = ({ title, options }) => {
               left: 10,
               top: 10,
             }}
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate('Posts')}
           />
         )}
       </View>

@@ -25,7 +25,7 @@ import { useSelector } from "react-redux";
 
 export default function PostsScreen() {
   const posts = useSelector((state) => state.posts.posts);
-  console.log(posts);
+  // console.log(posts);
   const { email, login, photo } = useSelector((state) => state.user);
 
   return (
@@ -50,7 +50,7 @@ export default function PostsScreen() {
       {posts && (
         <ScrollView style={{ paddingHorizontal: 16, paddingVertical: 5 }}>
           {posts.map((el) => (
-            <Post key={el.name} data={el}></Post>
+            <Post key={el.photoAssets.creationTime} data={el}></Post>
           ))}
         </ScrollView>
       )}
