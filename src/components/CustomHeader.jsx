@@ -12,7 +12,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { styles } from "../screens/scc";
 import { signOut } from "firebase/auth";
-import { auth } from "../../config";
+import { auth } from "../firebase/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import CommentsScreen from "../../screens/CommentsScreen";
 // import MapScreen from "../../screens/MapScreen";
@@ -55,7 +55,7 @@ export const CustomHeader = ({ title, options }) => {
               left: 10,
               top: 10,
             }}
-            onPress={() => navigation.navigate('Posts')}
+            onPress={() => navigation.navigate("Posts")}
           />
         )}
       </View>

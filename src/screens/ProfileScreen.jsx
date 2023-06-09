@@ -20,7 +20,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { signOut } from "firebase/auth";
-import { auth } from "../../config";
+import { auth } from "../firebase/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector } from "react-redux";
 import Post from "../components/Post";
@@ -29,7 +29,7 @@ export default function ProfileScreen() {
   const navigation = useNavigation();
   const posts = useSelector((state) => state.posts.posts);
   const { login, photo, uid } = useSelector((state) => state.user);
-  const filteredPosts = posts.filter(post => post.uid === uid);
+  const filteredPosts = posts.filter((post) => post.uid === uid);
 
   return (
     <ImageBackground source={ImageBG} style={styles.imageBG}>

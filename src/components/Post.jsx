@@ -20,10 +20,13 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function Post({ data }) {
   const navigation = useNavigation();
-  const { geoLocation, location, name, url, photoUri } = data;
+  const { geoLocation, location, name, url, photoUri, photo } = data;
   return (
     <View style={postStyles.container}>
-      <Image style={postStyles.image} source={{ uri: photoUri /*url*/ }} />
+      <Image
+        style={postStyles.image}
+        source={{ uri: `data:image/jpg;base64,${photo}` /*photoUri url*/ }}
+      />
       <Text style={{ ...postStyles.text, marginBottom: 11 }}>{name}</Text>
       <View
         style={{

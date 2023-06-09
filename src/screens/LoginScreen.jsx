@@ -21,7 +21,8 @@ import { useDispatch } from "react-redux";
 import { delPost, loginUser } from "../redux/slice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, getUserData } from "../../config";
+import { auth } from "../firebase/config";
+import { getUserData } from "../firebase/firestore";
 
 export default function LoginScreen() {
   const [passwordVisible, setPasswordVisible] = useState(true);
@@ -45,13 +46,17 @@ export default function LoginScreen() {
       password,
     };
     //--------------------------------------------
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        // const user = userCredential.user;
-        const uid = userCredential.user.uid;
-        const data = await getUserData(uid);
-        dispatch(loginUser({...data, uid}));
-        console.log(data);
-        navigation.navigate("Home", { screen: "Posts" });
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    // const user = userCredential.user;
+    const uid = userCredential.user.uid;
+    const data = await getUserData(uid);
+    dispatch(loginUser({ ...data, uid }));
+    console.log(data);
+    navigation.navigate("Home", { screen: "Posts" });
     //--------------------------------------------
   };
 

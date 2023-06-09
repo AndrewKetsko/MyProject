@@ -21,7 +21,8 @@ import { styles } from "./scc";
 import { useDispatch } from "react-redux";
 import { createUser } from "../redux/slice";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, registerUser } from "../../config";
+import { auth } from "../firebase/config";
+import { registerUser } from "../firebase/firestore";
 
 export default function RegistrationScreen() {
   const [passwordVisible, setPasswordVisible] = useState(true);
@@ -59,7 +60,7 @@ export default function RegistrationScreen() {
         registerUser(login, email, uid);
         // console.log("were after register");
         // navigation.navigate("Home", { screen: "Posts" });
-        return {login, email, uid};
+        return { login, email, uid };
       })
       .then((user) => {
         dispatch(createUser(user));

@@ -21,18 +21,22 @@ import { styles } from "./scc";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { addPost } from "../redux/slice";
-import { setPost, setStorage } from "../../config";
+import { setPost } from "../firebase/config";
+import { setStorage } from "../firebase/storage";
+import * as FileSystem from "expo-file-system";
 
 export default function CreatePostsScreen() {
   const [permission, setPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [photoUri, setPhotoUri] = useState(null);
+  const [photo, setPhoto] = useState(null);
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [geoLocation, setGeoLocation] = useState(null);
+  const [haveParam, setHaveParam] = useState(false);
 
-  const haveParam = photoUri && !!name && !!location;
+  // let haveParam = photoUri && !!name && !!location;
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const uid = useSelector((state) => state.user.uid);
@@ -61,6 +65,10 @@ export default function CreatePostsScreen() {
     })();
   }, []);
 
+  useEffect(() => {
+    setHaveParam(photoUri && !!name && !!location);
+  }, [photoUri, name, location]);
+
   if (permission === null) {
     return <View />;
   }
@@ -69,21 +77,26 @@ export default function CreatePostsScreen() {
   }
 
   const onPostPress = async () => {
+    setHaveParam(false);
     const photoAssets = await MediaLibrary.createAssetAsync(photoUri);
     const post = {
       name,
       location,
       geoLocation,
-      photoUri,
+      // photoUri,
       photoAssets,
+      photo,
     };
     // console.log(post);
     const url = await setStorage({ ...post, uid });
     // console.log({ ...post, uid });
+    console.log(url);
     dispatch(addPost({ ...post, url, uid }));
-    // console.log({ ...post, url, uid });
-    // setPost({...post, uid});
+    console.log("after dispatch");
+    // setPost({ ...post, uid });
+    console.log("after setpost");
     onDelPress();
+    console.log("after ondel");
     navigation.navigate("Posts");
   };
 
@@ -92,6 +105,24 @@ export default function CreatePostsScreen() {
     setName("");
     setLocation("");
     setGeoLocation(null);
+  };
+
+  const onShot = async () => {
+    if (cameraRef) {
+      const { uri } = await cameraRef.takePictureAsync({
+        quality: 1,
+        base64: true,
+      });
+      const base64 = await FileSystem.readAsStringAsync(uri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+      // console.log("base64", base64);
+      // const asset = await MediaLibrary.createAssetAsync(uri);
+      // console.log(uri);
+      // console.log(asset);
+      setPhotoUri(uri);
+      setPhoto(base64);
+    }
   };
 
   // const getImage = async () => {
@@ -147,15 +178,7 @@ export default function CreatePostsScreen() {
                   name="photo-camera"
                   size={24}
                   color={!photoUri ? "#BDBDBD" : "white"}
-                  onPress={async () => {
-                    if (cameraRef) {
-                      const { uri } = await cameraRef.takePictureAsync();
-                      // const asset = await MediaLibrary.createAssetAsync(uri);
-                      // console.log(uri);
-                      // console.log(asset);
-                      setPhotoUri(uri);
-                    }
-                  }}
+                  onPress={onShot}
                 />
               </View>
             </View>
