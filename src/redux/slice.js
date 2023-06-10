@@ -12,6 +12,9 @@ export const postsSlice = createSlice({
       // console.log(action.payload);
       state.posts.push(action.payload);
     },
+    addAllPosts(state, action) {
+      state.posts = action.payload
+    },
     delPost(state, action) {
       // state.posts=[];
     },
@@ -33,7 +36,7 @@ export const postsSlice = createSlice({
   // },
 });
 
-export const { addPost, delPost, addComment } = postsSlice.actions;
+export const { addPost, delPost, addComment, addAllPosts } = postsSlice.actions;
 
 const persistPostConfig = {
   key: "posts",

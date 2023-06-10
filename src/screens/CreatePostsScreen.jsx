@@ -21,9 +21,9 @@ import { styles } from "./scc";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { addPost } from "../redux/slice";
-import { setPost } from "../firebase/config";
 import { setStorage } from "../firebase/storage";
 import * as FileSystem from "expo-file-system";
+import { setPost } from "../firebase/firestore";
 
 export default function CreatePostsScreen() {
   const [permission, setPermission] = useState(null);
@@ -78,20 +78,29 @@ export default function CreatePostsScreen() {
 
   const onPostPress = async () => {
     setHaveParam(false);
-    const photoAssets = await MediaLibrary.createAssetAsync(photoUri);
+    const { creationTime } = await MediaLibrary.createAssetAsync(photoUri);
+
+    const response = await fetch(photoUri);
+    const file = await response.blob();
+
+    const url = await setStorage({ creationTime, file });
+    console.log(url);
+
     const post = {
       name,
       location,
       geoLocation,
-      // photoUri,
-      photoAssets,
-      photo,
+      url,
+      creationTime,
+      uid,
+      // photo,
     };
-    // console.log(post);
-    const url = await setStorage({ ...post, uid });
+    console.log("post", post);
+    await setPost(post);
+    // const url = await setStorage({ ...post, uid });
     // console.log({ ...post, uid });
-    console.log(url);
-    dispatch(addPost({ ...post, url, uid }));
+    // console.log(url);
+    dispatch(addPost(post));
     console.log("after dispatch");
     // setPost({ ...post, uid });
     console.log("after setpost");
@@ -113,15 +122,26 @@ export default function CreatePostsScreen() {
         quality: 1,
         base64: true,
       });
-      const base64 = await FileSystem.readAsStringAsync(uri, {
-        encoding: FileSystem.EncodingType.Base64,
-      });
-      // console.log("base64", base64);
-      // const asset = await MediaLibrary.createAssetAsync(uri);
-      // console.log(uri);
-      // console.log(asset);
       setPhotoUri(uri);
-      setPhoto(base64);
+
+      // const base64 = await FileSystem.readAsStringAsync(uri, {
+      //   encoding: FileSystem.EncodingType.Base64,
+      // });
+      // console.log("base64");
+
+      // const utf = await FileSystem.readAsStringAsync(uri);
+      // const response = await fetch(uri);
+      // const file = await response.blob();
+      console.log("response ");
+      // const file = await base64.blob();
+      console.log("file");
+      // const asset = await MediaLibrary.createAssetAsync(uri);
+      console.log(uri);
+      // console.log(asset);
+      // console.log("set uri");
+      // setPhoto(base64);
+      // setPhoto(utf);
+      console.log("set file");
     }
   };
 
@@ -155,7 +175,7 @@ export default function CreatePostsScreen() {
                 <MaterialIcons
                   name="photo-camera"
                   size={24}
-                  color={!photoUri ? "#BDBDBD" : "white"}
+                  color={"#BDBDBD"}
                   onPress={async () => {
                     if (photoUri) {
                       // await MediaLibrary.deleteAssetsAsync(photoUri);
@@ -177,7 +197,7 @@ export default function CreatePostsScreen() {
                 <MaterialIcons
                   name="photo-camera"
                   size={24}
-                  color={!photoUri ? "#BDBDBD" : "white"}
+                  color={"#BDBDBD"}
                   onPress={onShot}
                 />
               </View>

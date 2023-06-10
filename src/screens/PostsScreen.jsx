@@ -20,13 +20,22 @@ import Post from "../components/Post";
 import { useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getAllPosts } from "../firebase/firestore";
 
 // const PostNav = createStackNavigator();
 
 export default function PostsScreen() {
-  const posts = useSelector((state) => state.posts.posts);
-  // console.log(posts);
+  const [posts, setPosts] = useState(useSelector((state) => state.posts.posts));
   const { email, login, photo } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    (async () => {
+      const posts = await getAllPosts();
+      console.log(posts);
+      setPosts(posts);
+    })();
+  },[]);
 
   return (
     <>
@@ -50,7 +59,7 @@ export default function PostsScreen() {
       {posts && (
         <ScrollView style={{ paddingHorizontal: 16, paddingVertical: 5 }}>
           {posts.map((el) => (
-            <Post key={el.photoAssets.creationTime} data={el}></Post>
+            <Post key={el.creationTime} data={el}></Post>
           ))}
         </ScrollView>
       )}
