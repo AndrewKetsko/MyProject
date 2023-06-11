@@ -10,12 +10,12 @@ import {
   REGISTER,
 } from "redux-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { pesistUserReducer, pesistPostReducer } from "./slice";
+import { pesistUserReducer, pesistPostReducer, postsReducer } from "./slice";
 
 export const store = configureStore({
   reducer: {
     user: pesistUserReducer,
-    posts: pesistPostReducer,
+    posts: postsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

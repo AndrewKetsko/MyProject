@@ -18,11 +18,12 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
 import { styles } from "./scc";
-import { useDispatch } from "react-redux";
-import { createUser } from "../redux/slice";
+import { useDispatch, useSelector } from "react-redux";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/config";
 import { registerUser } from "../firebase/firestore";
+import { createUser } from "../redux/thunks";
+import { useEffect } from "react";
 
 export default function RegistrationScreen() {
   const [passwordVisible, setPasswordVisible] = useState(true);
@@ -33,6 +34,11 @@ export default function RegistrationScreen() {
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.user.isLogin);
+
+  useEffect(() => {
+    if (isLoggedIn) navigation.navigate("Home", { screen: "Posts" });
+  }, [isLoggedIn]);
 
   const haveParam = email && password && login;
 
@@ -47,30 +53,30 @@ export default function RegistrationScreen() {
       password,
       photo,
     };
-    // dispatch(createUser(user));
+    dispatch(createUser(user));
     // console.log("were on presss");
 
     //-------------------------------------------------------
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        //signedin
-        // console.log('were in create');
-        const user = userCredential.user;
-        const uid = user.uid;
-        registerUser(login, email, uid);
-        // console.log("were after register");
-        // navigation.navigate("Home", { screen: "Posts" });
-        return { login, email, uid };
-      })
-      .then((user) => {
-        dispatch(createUser(user));
-        navigation.navigate("Home", { screen: "Posts" });
-      })
-      .catch((error) => {
-        console.log(error.message);
+    // createUserWithEmailAndPassword(auth, email, password)
+    //   .then((userCredential) => {
+    //     //signedin
+    //     // console.log('were in create');
+    //     const user = userCredential.user;
+    //     const uid = user.uid;
+    //     registerUser(login, email, uid);
+    //     // console.log("were after register");
+    //     // navigation.navigate("Home", { screen: "Posts" });
+    //     return { login, email, uid };
+    //   })
+    //   .then((user) => {
+    //     dispatch(createUser(user));
+    //     navigation.navigate("Home", { screen: "Posts" });
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.message);
 
-        // const error = error.message;
-      });
+    //     // const error = error.message;
+    //   });
     //-----------------------------------------------------------
   };
 

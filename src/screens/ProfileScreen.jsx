@@ -27,9 +27,11 @@ import Post from "../components/Post";
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
-  const posts = useSelector((state) => state.posts.posts);
+    const [posts, setPosts] = useState(
+      useSelector((state) => state.posts.posts)
+    );
   const { login, photo, uid } = useSelector((state) => state.user);
-  const filteredPosts = posts.filter((post) => post.uid === uid);
+  // const filteredPosts = posts.filter((post) => post.uid === uid);
 
   return (
     <ImageBackground source={ImageBG} style={styles.imageBG}>
@@ -85,9 +87,11 @@ export default function ProfileScreen() {
         </Text>
         {posts && (
           <ScrollView style={{ paddingHorizontal: 16, paddingVertical: 5 }}>
-            {filteredPosts.map((el) => (
-              <Post key={el.photoAssets.creationTime} data={el}></Post>
-            ))}
+            {posts
+              .filter((post) => post.uid === uid)
+              .map((el) => (
+                <Post key={el.creationTime} data={el}></Post>
+              ))}
           </ScrollView>
         )}
       </View>

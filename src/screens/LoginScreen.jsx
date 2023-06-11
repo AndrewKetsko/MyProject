@@ -17,12 +17,14 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
 import { styles } from "./scc";
-import { useDispatch } from "react-redux";
-import { delPost, loginUser } from "../redux/slice";
+import { useDispatch, useSelector } from "react-redux";
+import { delPost } from "../redux/slice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/config";
 import { getUserData } from "../firebase/firestore";
+import { loginUser } from "../redux/thunks";
+import { useEffect } from "react";
 
 export default function LoginScreen() {
   const [passwordVisible, setPasswordVisible] = useState(true);
@@ -31,6 +33,11 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.user.isLogin);
+
+  useEffect(() => {
+    if (isLoggedIn) navigation.navigate("Home", { screen: "Posts" });
+  }, [isLoggedIn]);
 
   const haveParam = email && password;
 
@@ -38,25 +45,24 @@ export default function LoginScreen() {
 
   const setBlur = () => setFocused(null);
 
-  // dispatch(delPost());
-
   const onPress = async () => {
     const user = {
       email,
       password,
     };
+    dispatch(loginUser(user));
     //--------------------------------------------
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    // const user = userCredential.user;
-    const uid = userCredential.user.uid;
-    const data = await getUserData(uid);
-    dispatch(loginUser({ ...data, uid }));
-    console.log(data);
-    navigation.navigate("Home", { screen: "Posts" });
+    // const userCredential = await signInWithEmailAndPassword(
+    //   auth,
+    //   email,
+    //   password
+    // );
+    // // const user = userCredential.user;
+    // const uid = userCredential.user.uid;
+    // const data = await getUserData(uid);
+    // dispatch(loginUser({ ...data, uid }));
+    // console.log(data);
+    // navigation.navigate("Home", { screen: "Posts" });
     //--------------------------------------------
   };
 

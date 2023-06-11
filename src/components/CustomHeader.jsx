@@ -14,11 +14,14 @@ import { styles } from "../screens/scc";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import { logOutUser } from "../redux/thunks";
 // import CommentsScreen from "../../screens/CommentsScreen";
 // import MapScreen from "../../screens/MapScreen";
 
 export const CustomHeader = ({ title, options }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -35,13 +38,11 @@ export const CustomHeader = ({ title, options }) => {
               right: 10,
               top: 10,
             }}
-            onPress={() =>
-              signOut(auth)
-                .then(() => AsyncStorage.clear())
-                .then(() => navigation.navigate("Login"))
-                .catch((error) => {
-                  console.log(error.message);
-                })
+            onPress={
+              () => {
+                dispatch(logOutUser());
+                navigation.navigate("Login");
+              }
             }
           />
         ) : (

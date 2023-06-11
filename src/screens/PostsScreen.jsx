@@ -19,24 +19,27 @@ import Post from "../components/Post";
 // import { CustomHeader } from "../components/CustomHeader";
 import { useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAllPosts } from "../firebase/firestore";
+import { addAllPosts } from "../redux/slice";
 
 // const PostNav = createStackNavigator();
 
 export default function PostsScreen() {
+  const dispatch = useDispatch();
   const [posts, setPosts] = useState(useSelector((state) => state.posts.posts));
   const { email, login, photo } = useSelector((state) => state.user);
 
   useEffect(() => {
     (async () => {
       const posts = await getAllPosts();
-      console.log(posts);
+      // console.log(posts);
       setPosts(posts);
+      dispatch(addAllPosts(posts));
     })();
   },[]);
-
+  console.log(posts);
   return (
     <>
       <View style={postStyles.container}>

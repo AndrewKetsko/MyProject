@@ -16,7 +16,6 @@ import { styles } from "../screens/scc";
 import { CustomHeader } from "./CustomHeader";
 
 const HomeNav = createBottomTabNavigator();
-// const PostNav = createStackNavigator();
 
 export default function Home({ navigation }) {
   return (
@@ -117,72 +116,7 @@ export default function Home({ navigation }) {
             headerShown: false,
           }}
         />
-        {/* <HomeNav.Screen
-          name="Comments"
-          component={CommentsScreen}
-          options={{
-            header: ({ navigation, route, options }) => {
-              const title = route.name;
-              return (
-                <CustomHeader title={title} options={options.headerStyle} />
-              );
-            },
-            tabBarIcon: () => {},
-          }}
-          // options={{
-          //   headerShown: false,
-          // }}
-        />
-        <HomeNav.Screen
-          name="Map"
-          component={MapScreen}
-          options={{
-            header: ({ navigation, route, options }) => {
-              const title = route.name;
-              return (
-                <CustomHeader title={title} options={options.headerStyle} />
-              );
-            },
-            tabBarIcon: () => {return (
-              <Feather
-                name="user"
-                size={0}
-                color={"#ffffff"}
-              />
-            );},
-          }}
-          // options={{
-          //   headerShown: false,
-          // }}
-        /> */}
       </HomeNav.Navigator>
-
-      {/* <PostNav.Navigator>
-        <PostNav.Screen
-          name="Comments"
-          component={CommentsScreen}
-          options={{
-            header: ({ navigation, route, options }) => {
-              const title = route.name;
-              return (
-                <CustomHeader title={title} options={options.headerStyle} />
-              );
-            },
-          }}
-        />
-        <PostNav.Screen
-          name="Map"
-          component={MapScreen}
-          options={{
-            header: ({ navigation, route, options }) => {
-              const title = route.name;
-              return (
-                <CustomHeader title={title} options={options.headerStyle} />
-              );
-            },
-          }}
-        />
-      </PostNav.Navigator> */}
     </>
   );
 }
