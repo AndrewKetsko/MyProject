@@ -24,6 +24,7 @@ import { addPost } from "../redux/slice";
 import { setStorage } from "../firebase/storage";
 import * as FileSystem from "expo-file-system";
 import { setPost } from "../firebase/firestore";
+import { getUid } from '../redux/selectors';
 
 export default function CreatePostsScreen() {
   const [permission, setPermission] = useState(null);
@@ -39,7 +40,7 @@ export default function CreatePostsScreen() {
   // let haveParam = photoUri && !!name && !!location;
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const uid = useSelector((state) => state.user.uid);
+  const uid = useSelector(getUid);
 
   useEffect(() => {
     (async () => {

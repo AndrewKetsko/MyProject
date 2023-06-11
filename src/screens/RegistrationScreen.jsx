@@ -24,6 +24,7 @@ import { auth } from "../firebase/config";
 import { registerUser } from "../firebase/firestore";
 import { createUser } from "../redux/thunks";
 import { useEffect } from "react";
+import { getLogin } from "../redux/selectors";
 
 export default function RegistrationScreen() {
   const [passwordVisible, setPasswordVisible] = useState(true);
@@ -34,7 +35,7 @@ export default function RegistrationScreen() {
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.user.isLogin);
+  const isLoggedIn = useSelector(getLogin);
 
   useEffect(() => {
     if (isLoggedIn) navigation.navigate("Home", { screen: "Posts" });

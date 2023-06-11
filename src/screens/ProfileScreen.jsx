@@ -24,13 +24,14 @@ import { auth } from "../firebase/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector } from "react-redux";
 import Post from "../components/Post";
+import { getPosts, getUser } from "../redux/selectors";
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
     const [posts, setPosts] = useState(
-      useSelector((state) => state.posts.posts)
+      useSelector(getPosts)
     );
-  const { login, photo, uid } = useSelector((state) => state.user);
+  const { login, photo, uid } = useSelector(getUser);
   // const filteredPosts = posts.filter((post) => post.uid === uid);
 
   return (
