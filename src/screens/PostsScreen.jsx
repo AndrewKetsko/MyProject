@@ -21,9 +21,10 @@ import { useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getAllPosts } from "../firebase/firestore";
-import { addAllPosts } from "../redux/slice";
+// import { getAllPosts } from "../firebase/firestore";
+// import { addAllPosts } from "../redux/slice";
 import { getPosts, getUser } from "../redux/selectors";
+import { getAllPosts } from "../redux/thunks";
 
 // const PostNav = createStackNavigator();
 
@@ -33,10 +34,11 @@ export default function PostsScreen() {
   const { email, login, photo } = useSelector(getUser);
 
   useEffect(() => {
-    (async () => {
-      const posts = await getAllPosts();
-      dispatch(addAllPosts(posts));
-    })();
+    dispatch(getAllPosts());
+    // (async () => {
+    //   const posts = await getAllPosts();
+    //   dispatch(addAllPosts(posts));
+    // })();
   }, []);
 
   return (

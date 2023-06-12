@@ -20,11 +20,12 @@ import * as Location from "expo-location";
 import { styles } from "./scc";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { addPost } from "../redux/slice";
+// import { addPost } from "../redux/slice";
 import { setStorage } from "../firebase/storage";
 import * as FileSystem from "expo-file-system";
 import { setPost } from "../firebase/firestore";
 import { getEmail, getUid } from "../redux/selectors";
+import { addPost } from "../redux/thunks";
 
 export default function CreatePostsScreen() {
   const [permission, setPermission] = useState(null);
@@ -40,7 +41,7 @@ export default function CreatePostsScreen() {
   const dispatch = useDispatch();
   // const uid = useSelector(getUid);
   const email = useSelector(getEmail);
-
+  // console.log(email);
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -78,23 +79,32 @@ export default function CreatePostsScreen() {
 
   const onPostPress = async () => {
     setHaveParam(false);
-    const { creationTime } = await MediaLibrary.createAssetAsync(photoUri);
-
-    const response = await fetch(photoUri);
-    const file = await response.blob();
-
-    const url = await setStorage({ creationTime, file });
-
     const post = {
       name,
       location,
       geoLocation,
-      url,
-      creationTime,
       email,
+      photoUri,
     };
-    await setPost(post);
     dispatch(addPost(post));
+
+    // const { creationTime } = await MediaLibrary.createAssetAsync(photoUri);
+
+    // const response = await fetch(photoUri);
+    // const file = await response.blob();
+
+    // const url = await setStorage({ creationTime, file });
+
+    // const post = {
+    //   name,
+    //   location,
+    //   geoLocation,
+    //   url,
+    //   creationTime,
+    //   email,
+    // };
+    // await setPost(post);
+    // dispatch(addPost(post));
     onDelPress();
     navigation.navigate("Posts");
   };
@@ -172,15 +182,20 @@ export default function CreatePostsScreen() {
           >
             <MaterialIcons
               name="flip-camera-android"
+              // disabled={photoUri}
               size={24}
-              color="#bdbdbd"
-              onPress={() => {
-                setType(
-                  type === Camera.Constants.Type.back
-                    ? Camera.Constants.Type.front
-                    : Camera.Constants.Type.back
-                );
-              }}
+              color={photoUri ? "#bdbdbd" : "black"}
+              onPress={
+                photoUri
+                  ? null
+                  : () => {
+                      setType(
+                        type === Camera.Constants.Type.back
+                          ? Camera.Constants.Type.front
+                          : Camera.Constants.Type.back
+                      );
+                    }
+              }
             />
           </View>
           <View
@@ -195,7 +210,7 @@ export default function CreatePostsScreen() {
             <AntDesign
               name="delete"
               size={24}
-              color="#bdbdbd"
+              color={!photoUri ? "#bdbdbd" : "black"}
               onPress={onDelPress}
             />
           </View>

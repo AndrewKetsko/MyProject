@@ -31,7 +31,6 @@ export default function ProfileScreen() {
   const posts = useSelector(getPosts);
   const { login, photo, uid, email } = useSelector(getUser);
   // const filteredPosts = posts.filter((post) => post.uid === uid);
-
   return (
     <ImageBackground source={ImageBG} style={styles.imageBG}>
       <View style={styles.container}>
@@ -85,7 +84,7 @@ export default function ProfileScreen() {
           {login}
         </Text>
         {posts && (
-          <ScrollView style={{ paddingHorizontal: 16, paddingVertical: 5 }}>
+          <ScrollView style={{ paddingHorizontal: 16, paddingVertical: 0 }}>
             {posts
               .filter((post) => post.email === email)
               .map((el) => (

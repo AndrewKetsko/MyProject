@@ -6,6 +6,7 @@ import {
   getDocs,
   getFirestore,
   setDoc,
+  deleteDoc,
 } from "firebase/firestore";
 
 export const registerUser = async (login, email, userID) => {
@@ -33,14 +34,14 @@ export const setPost = async (post) => {
   }
 };
 
-export const getPost = async (id) => {
-  const getFirestore = await getDoc(doc(fireStore, "posts", id));
-  if (getFirestore.exists()) {
-    return getFirestore.data();
-  }
-};
+// export const getPost = async (id) => {
+//   const getFirestore = await getDoc(doc(fireStore, "posts", id));
+//   if (getFirestore.exists()) {
+//     return getFirestore.data();
+//   }
+// };
 
-export const getAllPosts = async () => {
+export const getAllPostsFirestore = async () => {
   const data = [];
   const querySnapshot = await getDocs(collection(fireStore, "posts"));
   querySnapshot.forEach((doc) => {
@@ -49,4 +50,13 @@ export const getAllPosts = async () => {
   });
   // console.log("data=>", data);
   return data;
+};
+
+export const deletePost = async (id) => {
+  console.log("in fire", id);
+  try {
+    await deleteDoc(doc(fireStore, "posts", `${id}`));
+  } catch (error) {
+    console.log(error.message);
+  }
 };

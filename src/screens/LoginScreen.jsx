@@ -35,15 +35,13 @@ export default function LoginScreen() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(getLogin);
+  const haveParam = email && password;
 
   useEffect(() => {
     if (isLoggedIn) navigation.navigate("Home", { screen: "Posts" });
   }, [isLoggedIn]);
 
-  const haveParam = email && password;
-
   const setFocus = (e) => setFocused(e._dispatchInstances.memoizedProps.name);
-
   const setBlur = () => setFocused(null);
 
   const onPress = async () => {

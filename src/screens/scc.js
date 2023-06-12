@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     borderTopRightRadius: 25,
     paddingHorizontal: 16,
     paddingTop: 92,
-    paddingBottom: 78,
+    paddingBottom: 10,
     backgroundColor: "white",
     opacity: 1,
   },
@@ -123,7 +123,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 11,
     borderBottomWidth: 1,
     borderColor: "#BDBDBD",
-    marginTop: 0,
+    marginTop: 35,
   },
   customHeaderText: {
     fontFamily: "Roboto",

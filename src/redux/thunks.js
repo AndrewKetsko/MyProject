@@ -5,8 +5,16 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../firebase/config";
-import { getUserData, registerUser } from "../firebase/firestore";
+import {
+  deletePost,
+  getAllPostsFirestore,
+  getUserData,
+  registerUser,
+  setPost,
+} from "../firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { setStorage } from "../firebase/storage";
+import * as MediaLibrary from "expo-media-library";
 
 export const createUser = createAsyncThunk(
   "user/createUser",
@@ -60,28 +68,42 @@ export const logOutUser = createAsyncThunk(
 
 export const addPost = createAsyncThunk(
   "posts/addPost",
-  async (data, thunkAPI) => {
+  async ({ photoUri, ...restData }, thunkAPI) => {
     try {
+      const { creationTime } = await MediaLibrary.createAssetAsync(photoUri);
+      const response = await fetch(photoUri);
+      const file = await response.blob();
+      const url = await setStorage({ creationTime, file });
+      const post = {
+        ...restData,
+        url,
+        creationTime,
+      };
+      await setPost(post);
+      return post;
     } catch (error) {
+      console.log(error.message);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
-export const getPost = createAsyncThunk(
-  "posts/getPost",
-  async (data, thunkAPI) => {
-    try {
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
+// export const getPost = createAsyncThunk(
+//   "posts/getPost",
+//   async (data, thunkAPI) => {
+//     try {
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(error.message);
+//     }
+//   }
+// );
 
 export const getAllPosts = createAsyncThunk(
-  "posts/addPost",
+  "posts/getAllPosts",
   async (data, thunkAPI) => {
     try {
+      const posts = await getAllPostsFirestore();
+      return posts;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -89,9 +111,12 @@ export const getAllPosts = createAsyncThunk(
 );
 
 export const delPost = createAsyncThunk(
-  "posts/addPost",
+  "posts/delPost",
   async (data, thunkAPI) => {
     try {
+      console.log('in chunk', data);
+      await deletePost(data);
+      return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
