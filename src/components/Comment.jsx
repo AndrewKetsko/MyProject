@@ -12,10 +12,11 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
-  Dimensions
+  Dimensions,
 } from "react-native";
 
 export default function Comment({ ind }) {
+
   return (
     <View
       style={{
@@ -26,7 +27,7 @@ export default function Comment({ ind }) {
         flexDirection: ind % 2 === 0 ? "row" : "row-reverse",
       }}
     >
-      <Image source={null} style={commentStyles.image} />
+      <Image source={{uri:null}} style={commentStyles.image} />
       <View
         style={{
           ...commentStyles.textContainer,
@@ -34,7 +35,10 @@ export default function Comment({ ind }) {
           borderTopRightRadius: ind % 2 === 1 ? 0 : 6,
         }}
       >
-        <Text style={commentStyles.text}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptate, placeat.</Text>
+        <Text style={commentStyles.text}>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptate,
+          placeat.
+        </Text>
         <Text style={commentStyles.date}>Comment Date</Text>
       </View>
     </View>
@@ -50,7 +54,7 @@ const commentStyles = StyleSheet.create({
   },
   textContainer: {
     backgroundColor: "rgba(0, 0, 0, 0.03)",
-    width: Dimensions.get("window").width-100,
+    width: Dimensions.get("window").width - 100,
     padding: 16,
     flexGrow: 1,
     borderBottomLeftRadius: 6,

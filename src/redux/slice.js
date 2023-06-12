@@ -62,7 +62,7 @@ export const userSlice = createSlice({
   initialState: {
     email: "",
     login: "",
-    photo: null,
+    photoUri: null,
     uid: null,
     isLogin: false,
   },
@@ -74,7 +74,7 @@ export const userSlice = createSlice({
       .addCase(createUser.fulfilled, (state, action) => {
         state.email = action.payload.email;
         state.login = action.payload.login;
-        state.photo = action.payload.photo;
+        state.photoUri = action.payload.url;
         state.uid = action.payload.uid;
         state.isLogin = true;
       })
@@ -83,7 +83,7 @@ export const userSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.email = action.payload.email;
         state.login = action.payload.login;
-        state.photo = action.payload.photo;
+        state.photoUri = action.payload.url;
         state.uid = action.payload.uid;
         state.isLogin = true;
       })

@@ -17,8 +17,12 @@ import { postStyles } from "../components/Post";
 import { useState } from "react";
 import Comment from "../components/Comment";
 import { AntDesign } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
+import { getUser } from "../redux/selectors";
 
-export default function CommentsScreen() {
+export default function CommentsScreen({ route }) {
+  const id = route.params.creationTime;
+  const url = route.params.url;
   const [comments, setComments] = useState([1, 2, 3, 4, 5]);
   const [newComment, setNewComment] = useState("");
 
@@ -26,7 +30,7 @@ export default function CommentsScreen() {
     <>
       <View style={{ paddingHorizontal: 16, paddingTop: 32 }}>
         <ScrollView>
-          <Image style={commentStyles.image} />
+          <Image style={commentStyles.image} source={{ uri: url }} />
           {comments.map((el, ind) => (
             <Comment key={el} ind={ind}></Comment>
           ))}

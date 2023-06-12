@@ -87,24 +87,6 @@ export default function CreatePostsScreen() {
       photoUri,
     };
     dispatch(addPost(post));
-
-    // const { creationTime } = await MediaLibrary.createAssetAsync(photoUri);
-
-    // const response = await fetch(photoUri);
-    // const file = await response.blob();
-
-    // const url = await setStorage({ creationTime, file });
-
-    // const post = {
-    //   name,
-    //   location,
-    //   geoLocation,
-    //   url,
-    //   creationTime,
-    //   email,
-    // };
-    // await setPost(post);
-    // dispatch(addPost(post));
     onDelPress();
     navigation.navigate("Posts");
   };

@@ -25,21 +25,39 @@ import { registerUser } from "../firebase/firestore";
 import { createUser } from "../redux/thunks";
 import { useEffect } from "react";
 import { getLogin } from "../redux/selectors";
+import { Camera } from "expo-camera";
+import * as MediaLibrary from "expo-media-library";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function RegistrationScreen() {
   const [passwordVisible, setPasswordVisible] = useState(true);
-  const [photo, setPhoto] = useState(null);
+  const [photoUri, setPhotoUri] = useState(null);
   const [focused, setFocused] = useState(null);
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(getLogin);
+  // const isLoggedIn = useSelector(getLogin);
+  const [permission, setPermission] = useState(null);
+  const [getAvatar, setGetAvatar] = useState(false);
+  const [cameraRef, setCameraRef] = useState(null);
+
+  // useEffect(() => {
+  //   if (isLoggedIn) navigation.navigate("Home", { screen: "Posts" });
+  // }, [isLoggedIn]);
 
   useEffect(() => {
-    if (isLoggedIn) navigation.navigate("Home", { screen: "Posts" });
-  }, [isLoggedIn]);
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      await MediaLibrary.requestPermissionsAsync();
+      setPermission(status === "granted");
+    })();
+  }, []);
+
+  if (permission === null) {
+    return <View />;
+  }
 
   const haveParam = email && password && login;
 
@@ -52,9 +70,20 @@ export default function RegistrationScreen() {
       login,
       email,
       password,
-      photo,
+      photoUri,
     };
     dispatch(createUser(user));
+  };
+
+  const onShot = async () => {
+    if (cameraRef) {
+      const { uri } = await cameraRef.takePictureAsync({
+        quality: 1,
+        base64: true,
+      });
+      setPhotoUri(uri);
+      setGetAvatar(false);
+    }
   };
 
   return (
@@ -62,23 +91,49 @@ export default function RegistrationScreen() {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           {/* <Image style={styles.image} /> */}
-          <ImageBackground source={photo} style={styles.image}>
-            {!photo ? (
+          <View>
+            {!getAvatar ? (
+              <Image source={{ uri: photoUri }} style={styles.image} />
+            ) : (
+              <Camera
+                style={styles.image}
+                type={Camera.Constants.Type.front}
+                ref={setCameraRef}
+              />
+            )}
+            {!getAvatar && !photoUri && (
               <AntDesign
                 name="pluscircleo"
                 size={24}
                 color="#FF6C00"
                 style={styles.icon}
+                onPress={() => {
+                  setGetAvatar(true);
+                }}
               />
-            ) : (
+            )}
+            {photoUri && (
               <AntDesign
                 name="closecircleo"
                 size={24}
                 color="#BDBDBD"
                 style={styles.icon}
+                onPress={() => {
+                  setGetAvatar(false);
+                  setPhotoUri(null);
+                }}
               />
             )}
-          </ImageBackground>
+            {getAvatar && !photoUri && (
+              <MaterialIcons
+                name="photo-camera"
+                size={24}
+                color={"#BDBDBD"}
+                style={styles.icon}
+                onPress={onShot}
+              />
+            )}
+          </View>
           <Text style={styles.header}>Registration</Text>
           <KeyboardAvoidingView
             behavior={Platform.OS == "ios" ? "padding" : "height"}

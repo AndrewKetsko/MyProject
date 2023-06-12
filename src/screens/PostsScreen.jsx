@@ -31,7 +31,7 @@ import { getAllPosts } from "../redux/thunks";
 export default function PostsScreen() {
   const dispatch = useDispatch();
   const posts = useSelector(getPosts);
-  const { email, login, photo } = useSelector(getUser);
+  const { email, login, photoUri } = useSelector(getUser);
 
   useEffect(() => {
     dispatch(getAllPosts());
@@ -53,7 +53,7 @@ export default function PostsScreen() {
             }}
           >
             <View>
-              <ImageBackground source={photo} style={postStyles.image} />
+              <ImageBackground source={{uri:photoUri}} style={postStyles.image} />
             </View>
             <View>
               <Text style={postStyles.name}>{login}</Text>

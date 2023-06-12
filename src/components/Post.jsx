@@ -70,7 +70,7 @@ export default function Post({ data }) {
             name="comment-o"
             size={24}
             color="#BDBDBD"
-            onPress={() => navigation.navigate("Comments")}
+            onPress={() => navigation.navigate("Comments",{creationTime, url})}
           />
           <Text style={{ ...postStyles.text, color: "#BDBDBD", marginLeft: 8 }}>
             Num

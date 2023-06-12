@@ -9,10 +9,10 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 
-export const registerUser = async (login, email, userID) => {
-  const db_obj = { login, email };
+export const registerUser = async ({url, login, email, uid}) => {
+  const db_obj = { login, email, url };
   try {
-    const docRef = await setDoc(doc(fireStore, "users", userID), db_obj);
+    const docRef = await setDoc(doc(fireStore, "users", uid), db_obj);
   } catch (error) {}
 };
 

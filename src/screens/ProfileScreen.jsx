@@ -29,28 +29,12 @@ import { getPosts, getUser } from "../redux/selectors";
 export default function ProfileScreen() {
   const navigation = useNavigation();
   const posts = useSelector(getPosts);
-  const { login, photo, uid, email } = useSelector(getUser);
+  const { login, photo, uid, email, photoUri } = useSelector(getUser);
   // const filteredPosts = posts.filter((post) => post.uid === uid);
   return (
     <ImageBackground source={ImageBG} style={styles.imageBG}>
       <View style={styles.container}>
-        <ImageBackground source={photo} style={styles.image}>
-          {!photo ? (
-            <AntDesign
-              name="pluscircleo"
-              size={24}
-              color="#FF6C00"
-              style={styles.icon}
-            />
-          ) : (
-            <AntDesign
-              name="closecircleo"
-              size={24}
-              color="#BDBDBD"
-              style={styles.icon}
-            />
-          )}
-        </ImageBackground>
+        <Image source={{ uri: photoUri }} style={styles.image} />
         <MaterialIcons
           name="logout"
           size={24}

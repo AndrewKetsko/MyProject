@@ -18,7 +18,7 @@ import * as MediaLibrary from "expo-media-library";
 
 export const createUser = createAsyncThunk(
   "user/createUser",
-  async ({ login, email, password, photo }, thunkAPI) => {
+  async ({ login, email, password, photoUri }, thunkAPI) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -27,9 +27,15 @@ export const createUser = createAsyncThunk(
       );
       const user = userCredential.user;
       const uid = user.uid;
-      await registerUser(login, email, uid);
-      return { photo, login, email, uid };
+      const response = await fetch(photoUri);
+      const file = await response.blob();
+      const { creationTime } = await MediaLibrary.createAssetAsync(photoUri);
+      const url = await setStorage({ folder: "avatar", creationTime, file });
+      await registerUser({ login, email, url, uid });
+      const data = await getUserData(uid);
+      return { ...data, uid };
     } catch (error) {
+      console.log(error.message);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -73,7 +79,7 @@ export const addPost = createAsyncThunk(
       const { creationTime } = await MediaLibrary.createAssetAsync(photoUri);
       const response = await fetch(photoUri);
       const file = await response.blob();
-      const url = await setStorage({ creationTime, file });
+      const url = await setStorage({ folder: "posts", creationTime, file });
       const post = {
         ...restData,
         url,
@@ -114,7 +120,7 @@ export const delPost = createAsyncThunk(
   "posts/delPost",
   async (data, thunkAPI) => {
     try {
-      console.log('in chunk', data);
+      console.log("in chunk", data);
       await deletePost(data);
       return data;
     } catch (error) {
