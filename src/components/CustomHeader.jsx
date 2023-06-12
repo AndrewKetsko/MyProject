@@ -49,7 +49,7 @@ export const CustomHeader = ({ title, options }) => {
           <AntDesign
             name="arrowleft"
             size={24}
-            color="#BDBDBD"
+            color="black"
             style={{
               marginLeft: "auto",
               position: "absolute",

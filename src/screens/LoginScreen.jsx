@@ -52,19 +52,6 @@ export default function LoginScreen() {
       password,
     };
     dispatch(loginUser(user));
-    //--------------------------------------------
-    // const userCredential = await signInWithEmailAndPassword(
-    //   auth,
-    //   email,
-    //   password
-    // );
-    // // const user = userCredential.user;
-    // const uid = userCredential.user.uid;
-    // const data = await getUserData(uid);
-    // dispatch(loginUser({ ...data, uid }));
-    // console.log(data);
-    // navigation.navigate("Home", { screen: "Posts" });
-    //--------------------------------------------
   };
 
   return (

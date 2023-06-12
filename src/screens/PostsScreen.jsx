@@ -37,29 +37,30 @@ export default function PostsScreen() {
       const posts = await getAllPosts();
       dispatch(addAllPosts(posts));
     })();
-  },[]);
-  console.log(posts);
+  }, []);
+
   return (
     <>
-      <View style={postStyles.container}>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <View>
-            <ImageBackground source={photo} style={postStyles.image} />
-          </View>
-          <View>
-            <Text style={postStyles.name}>{login}</Text>
-            <Text style={postStyles.email}>{email}</Text>
+      {!posts ? (
+        <View style={postStyles.container}>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <View>
+              <ImageBackground source={photo} style={postStyles.image} />
+            </View>
+            <View>
+              <Text style={postStyles.name}>{login}</Text>
+              <Text style={postStyles.email}>{email}</Text>
+            </View>
           </View>
         </View>
-      </View>
-      {posts && (
-        <ScrollView style={{ paddingHorizontal: 16, paddingVertical: 5 }}>
+      ) : (
+        <ScrollView style={{ paddingHorizontal: 16, paddingVertical: 0, marginBottom: 16 }}>
           {posts.map((el) => (
             <Post key={el.creationTime} data={el}></Post>
           ))}

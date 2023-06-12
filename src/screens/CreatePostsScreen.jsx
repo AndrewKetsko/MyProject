@@ -24,23 +24,22 @@ import { addPost } from "../redux/slice";
 import { setStorage } from "../firebase/storage";
 import * as FileSystem from "expo-file-system";
 import { setPost } from "../firebase/firestore";
-import { getUid } from '../redux/selectors';
+import { getEmail, getUid } from "../redux/selectors";
 
 export default function CreatePostsScreen() {
   const [permission, setPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [photoUri, setPhotoUri] = useState(null);
-  const [photo, setPhoto] = useState(null);
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [geoLocation, setGeoLocation] = useState(null);
   const [haveParam, setHaveParam] = useState(false);
 
-  // let haveParam = photoUri && !!name && !!location;
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const uid = useSelector(getUid);
+  // const uid = useSelector(getUid);
+  const email = useSelector(getEmail);
 
   useEffect(() => {
     (async () => {
@@ -85,7 +84,6 @@ export default function CreatePostsScreen() {
     const file = await response.blob();
 
     const url = await setStorage({ creationTime, file });
-    console.log(url);
 
     const post = {
       name,
@@ -93,20 +91,11 @@ export default function CreatePostsScreen() {
       geoLocation,
       url,
       creationTime,
-      uid,
-      // photo,
+      email,
     };
-    console.log("post", post);
     await setPost(post);
-    // const url = await setStorage({ ...post, uid });
-    // console.log({ ...post, uid });
-    // console.log(url);
     dispatch(addPost(post));
-    console.log("after dispatch");
-    // setPost({ ...post, uid });
-    console.log("after setpost");
     onDelPress();
-    console.log("after ondel");
     navigation.navigate("Posts");
   };
 
@@ -114,7 +103,6 @@ export default function CreatePostsScreen() {
     setPhotoUri(null);
     setName("");
     setLocation("");
-    setGeoLocation(null);
   };
 
   const onShot = async () => {
@@ -124,41 +112,17 @@ export default function CreatePostsScreen() {
         base64: true,
       });
       setPhotoUri(uri);
-
-      // const base64 = await FileSystem.readAsStringAsync(uri, {
-      //   encoding: FileSystem.EncodingType.Base64,
-      // });
-      // console.log("base64");
-
-      // const utf = await FileSystem.readAsStringAsync(uri);
-      // const response = await fetch(uri);
-      // const file = await response.blob();
-      console.log("response ");
-      // const file = await base64.blob();
-      console.log("file");
-      // const asset = await MediaLibrary.createAssetAsync(uri);
-      console.log(uri);
-      // console.log(asset);
-      // console.log("set uri");
-      // setPhoto(base64);
-      // setPhoto(utf);
-      console.log("set file");
     }
   };
-
-  // const getImage = async () => {
-  //   const asset = await MediaLibrary.getAssetInfoAsync(photoUri);
-  //   console.log(asset.uri);
-  //   return asset.uri;
-  // };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView
         style={{
           paddingHorizontal: 16,
-          paddingTop: 32,
-          paddingBottom: 10,
+          paddingTop: 16,
+          paddingBottom: 25,
+          // marginBottom: 20,
           backgroundColor: "white",
           height: "100%",
           display: "flex",
@@ -170,23 +134,7 @@ export default function CreatePostsScreen() {
             source={{
               uri: photoUri,
             }}
-          >
-            <View>
-              <View style={innerStyles.photoIcon}>
-                <MaterialIcons
-                  name="photo-camera"
-                  size={24}
-                  color={"#BDBDBD"}
-                  onPress={async () => {
-                    if (photoUri) {
-                      // await MediaLibrary.deleteAssetsAsync(photoUri);
-                      setPhotoUri(null);
-                    }
-                  }}
-                />
-              </View>
-            </View>
-          </ImageBackground>
+          ></ImageBackground>
         ) : (
           <Camera
             style={innerStyles.imageContainer}
@@ -205,29 +153,54 @@ export default function CreatePostsScreen() {
             </View>
           </Camera>
         )}
-        <TouchableOpacity
-          style={styles.text}
-          onPress={() => {
-            setType(
-              type === Camera.Constants.Type.back
-                ? Camera.Constants.Type.front
-                : Camera.Constants.Type.back
-            );
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: 10,
           }}
         >
-          <Text
+          <View
             style={{
-              ...innerStyles.innerText,
-              marginBottom: 10,
-              color: "black",
+              ...styles.bottomNavigation,
+              marginTop: "auto",
+              // marginHorizontal: "auto",
+              backgroundColor: "#F6F6F6",
+              alignSelf: "center",
             }}
           >
-            Flip camera
-          </Text>
-        </TouchableOpacity>
-        {/* <Text style={innerStyles.innerText}>
-          {!photoUri ? "Add photo" : "Edit photo"}
-        </Text> */}
+            <MaterialIcons
+              name="flip-camera-android"
+              size={24}
+              color="#bdbdbd"
+              onPress={() => {
+                setType(
+                  type === Camera.Constants.Type.back
+                    ? Camera.Constants.Type.front
+                    : Camera.Constants.Type.back
+                );
+              }}
+            />
+          </View>
+          <View
+            style={{
+              ...styles.bottomNavigation,
+              marginTop: "auto",
+              // marginHorizontal: "auto",
+              backgroundColor: "#F6F6F6",
+              alignSelf: "center",
+            }}
+          >
+            <AntDesign
+              name="delete"
+              size={24}
+              color="#bdbdbd"
+              onPress={onDelPress}
+            />
+          </View>
+        </View>
+
         <KeyboardAvoidingView
           behavior={Platform.OS == "ios" ? "padding" : "height"}
         >
@@ -275,22 +248,6 @@ export default function CreatePostsScreen() {
             Post
           </Text>
         </TouchableOpacity>
-        <View
-          style={{
-            ...styles.bottomNavigation,
-            marginTop: "auto",
-            // marginHorizontal: "auto",
-            backgroundColor: "#F6F6F6",
-            alignSelf: "center",
-          }}
-        >
-          <AntDesign
-            name="delete"
-            size={24}
-            color="#bdbdbd"
-            onPress={onDelPress}
-          />
-        </View>
       </ScrollView>
     </TouchableWithoutFeedback>
   );
@@ -331,7 +288,7 @@ const innerStyles = StyleSheet.create({
   },
   input: {
     height: 40,
-    marginTop: 20,
+    marginTop: 10,
     fontSize: 16,
     borderColor: "#E8E8E8",
     borderStyle: "solid",

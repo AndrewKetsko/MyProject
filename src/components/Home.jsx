@@ -17,7 +17,8 @@ import { CustomHeader } from "./CustomHeader";
 
 const HomeNav = createBottomTabNavigator();
 
-export default function Home({ navigation }) {
+export default function Home({ route, navigation }) {
+
   return (
     <>
       <HomeNav.Navigator

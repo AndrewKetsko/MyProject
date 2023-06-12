@@ -17,9 +17,8 @@ import {
 import MapView, { Marker } from "react-native-maps";
 
 export default function MapScreen({ navigation, route, options }) {
-  const latitude = route.params.geoLocation.latitude;
-  const longitude = route.params.geoLocation.longitude;
-  console.log(latitude, longitude);
+  const latitude = route.params.geoLocation.latitude ?? 0;
+  const longitude = route.params.geoLocation.longitude ?? 0;
 
   return (
     <View style={styles.container}>
@@ -32,7 +31,7 @@ export default function MapScreen({ navigation, route, options }) {
           longitudeDelta: 0.0421,
         }}
         mapType="standard"
-        minZoomLevel={15}
+        // minZoomLevel={15}
         // onMapReady={() => console.log("Map is ready")}
         // onRegionChange={() => console.log("Region change")}
       >

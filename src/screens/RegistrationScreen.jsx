@@ -55,30 +55,6 @@ export default function RegistrationScreen() {
       photo,
     };
     dispatch(createUser(user));
-    // console.log("were on presss");
-
-    //-------------------------------------------------------
-    // createUserWithEmailAndPassword(auth, email, password)
-    //   .then((userCredential) => {
-    //     //signedin
-    //     // console.log('were in create');
-    //     const user = userCredential.user;
-    //     const uid = user.uid;
-    //     registerUser(login, email, uid);
-    //     // console.log("were after register");
-    //     // navigation.navigate("Home", { screen: "Posts" });
-    //     return { login, email, uid };
-    //   })
-    //   .then((user) => {
-    //     dispatch(createUser(user));
-    //     navigation.navigate("Home", { screen: "Posts" });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error.message);
-
-    //     // const error = error.message;
-    //   });
-    //-----------------------------------------------------------
   };
 
   return (

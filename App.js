@@ -22,11 +22,13 @@ const MainNav = createStackNavigator();
 // const HomeNav = createStackNavigator();
 
 export default function App() {
-  // const [fontsLoaded] = useFonts({
-  //   Roboto: require(''),
-  // });
+  const [fontsLoaded] = useFonts({
+    'Roboto': require('./src/fonts/Roboto-Regular.ttf'),
+  });
   // const navigation = useNavigation();
-
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
     <>
       <Provider store={store}>

@@ -123,7 +123,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 11,
     borderBottomWidth: 1,
     borderColor: "#BDBDBD",
-    marginTop: 30,
+    marginTop: 0,
   },
   customHeaderText: {
     fontFamily: "Roboto",

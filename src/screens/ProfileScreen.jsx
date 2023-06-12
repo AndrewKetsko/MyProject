@@ -28,10 +28,8 @@ import { getPosts, getUser } from "../redux/selectors";
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
-    const [posts, setPosts] = useState(
-      useSelector(getPosts)
-    );
-  const { login, photo, uid } = useSelector(getUser);
+  const posts = useSelector(getPosts);
+  const { login, photo, uid, email } = useSelector(getUser);
   // const filteredPosts = posts.filter((post) => post.uid === uid);
 
   return (
@@ -89,7 +87,7 @@ export default function ProfileScreen() {
         {posts && (
           <ScrollView style={{ paddingHorizontal: 16, paddingVertical: 5 }}>
             {posts
-              .filter((post) => post.uid === uid)
+              .filter((post) => post.email === email)
               .map((el) => (
                 <Post key={el.creationTime} data={el}></Post>
               ))}

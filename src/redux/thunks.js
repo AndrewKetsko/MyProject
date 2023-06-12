@@ -57,3 +57,43 @@ export const logOutUser = createAsyncThunk(
     }
   }
 );
+
+export const addPost = createAsyncThunk(
+  "posts/addPost",
+  async (data, thunkAPI) => {
+    try {
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const getPost = createAsyncThunk(
+  "posts/getPost",
+  async (data, thunkAPI) => {
+    try {
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const getAllPosts = createAsyncThunk(
+  "posts/addPost",
+  async (data, thunkAPI) => {
+    try {
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const delPost = createAsyncThunk(
+  "posts/addPost",
+  async (data, thunkAPI) => {
+    try {
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);

@@ -20,7 +20,7 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function Post({ data }) {
   const navigation = useNavigation();
-  const { geoLocation, location, name, url, uid} = data;
+  const { geoLocation, location, name, url, email} = data;
   return (
     <View style={postStyles.container}>
       <Image
