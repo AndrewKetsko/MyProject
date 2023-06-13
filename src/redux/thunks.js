@@ -7,9 +7,13 @@ import {
 import { auth } from "../firebase/config";
 import {
   deletePost,
+  getAllComments,
+  getAllPComments,
   getAllPostsFirestore,
   getUserData,
   registerUser,
+  setComment,
+  setLike,
   setPost,
 } from "../firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -124,6 +128,45 @@ export const delPost = createAsyncThunk(
       await deletePost(data);
       return data;
     } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// export const getComments = createAsyncThunk(
+//   "posts/getComments",
+//   async (data, thunkAPI) => {
+//     try {
+//       const comments = await getAllComments(data);
+//       return comments;
+//     } catch (error) {
+//       return {comments:[], likes:0};
+//       return thunkAPI.rejectWithValue(error.message);
+//     }
+//   }
+// );
+
+export const addComment = createAsyncThunk(
+  "posts/addComment",
+  async (post, thunkAPI) => {
+    try {
+      await setComment(post);
+      return post;
+    } catch (error) {
+      console.log(error.message);
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const addLike = createAsyncThunk(
+  "posts/addLike",
+  async (data, thunkAPI) => {
+    try {
+      await setLike(data);
+      return data;
+    } catch (error) {
+      console.log(error.message);
       return thunkAPI.rejectWithValue(error.message);
     }
   }

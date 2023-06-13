@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 // import PostsScreen from "../../screens/PostsScreen";
@@ -25,8 +25,31 @@ export const CustomHeader = ({ title, options }) => {
 
   return (
     <>
-      <View style={styles.customHeader}>
-        <Text style={styles.customHeaderText}>{title}</Text>
+      <View
+        style={{
+          position: "relative",
+          // display: "flex",
+          // flexDirection: "row",
+          paddingVertical: 11,
+          borderBottomWidth: 1,
+          borderColor: "#BDBDBD",
+          marginTop: 35,
+        }}
+      >
+        <Text
+          style={{
+            fontFamily: "Roboto",
+            fontStyle: "normal",
+            fontWeight: 500,
+            fontSize: 17,
+            lineHeight: 22,
+            textAlign: "center",
+            letterSpacing: -0.408,
+            color: "#212121",
+          }}
+        >
+          {title}
+        </Text>
         {title === "Posts" ? (
           <MaterialIcons
             name="logout"
@@ -38,12 +61,10 @@ export const CustomHeader = ({ title, options }) => {
               right: 10,
               top: 10,
             }}
-            onPress={
-              () => {
-                dispatch(logOutUser());
-                navigation.navigate("Login");
-              }
-            }
+            onPress={() => {
+              dispatch(logOutUser());
+              navigation.navigate("Login");
+            }}
           />
         ) : (
           <AntDesign

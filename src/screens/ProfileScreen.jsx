@@ -32,9 +32,46 @@ export default function ProfileScreen() {
   const { login, photo, uid, email, photoUri } = useSelector(getUser);
   // const filteredPosts = posts.filter((post) => post.uid === uid);
   return (
-    <ImageBackground source={ImageBG} style={styles.imageBG}>
-      <View style={styles.container}>
-        <Image source={{ uri: photoUri }} style={styles.image} />
+    <ImageBackground
+      source={ImageBG}
+      style={{
+        flex: 1,
+        width: null,
+        height: null,
+        // opacity: 0.6
+      }}
+    >
+      <View
+        style={{
+          position: "relative",
+          marginTop: "auto",
+          // borderWidth: 1,
+          // borderStyle: "solid",
+          borderTopLeftRadius: 25,
+          borderTopRightRadius: 25,
+          paddingHorizontal: 16,
+          paddingTop: 92,
+          paddingBottom: 10,
+          backgroundColor: "white",
+          opacity: 1,
+        }}
+      >
+        <Image
+          source={{ uri: photoUri }}
+          style={{
+            height: 120,
+            width: 120,
+            backgroundColor: "#F6F6F6",
+            position: "absolute",
+            top: -60,
+            left: "50%",
+            borderRadius: 16,
+            transform: [{ translateX: -50 }],
+            // overflow:'hidden',
+            // borderWidth: 1,
+            // borderStyle: "solid",
+          }}
+        />
         <MaterialIcons
           name="logout"
           size={24}

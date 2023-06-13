@@ -19,12 +19,20 @@ import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { getEmail } from "../redux/selectors";
-import { styles } from "../../src/screens/scc";
-import { delPost } from "../redux/thunks";
+import { addLike, delPost } from "../redux/thunks";
 
 export default function Post({ data }) {
   const navigation = useNavigation();
-  const { geoLocation, location, name, url, email, creationTime } = data;
+  const {
+    geoLocation,
+    location,
+    name,
+    url,
+    email,
+    creationTime,
+    comments,
+    likes,
+  } = data;
 
   const accEmail = useSelector(getEmail);
   const dispatch = useDispatch();
@@ -33,13 +41,18 @@ export default function Post({ data }) {
     dispatch(delPost(creationTime));
   };
 
+  const addLikeFunc = () => {
+    if (likes?.includes(accEmail)) return;
+    dispatch(addLike({ mail: accEmail, id: creationTime }));
+  };
+
   return (
     <View style={postStyles.container}>
       <Image style={postStyles.image} source={{ uri: url }} />
       {accEmail === email && (
         <View
           style={{
-            ...styles.bottomNavigation,
+            ...postStyles.bottomNavigation,
             // marginTop: "auto",
             // marginHorizontal: "auto",
             backgroundColor: "#F6F6F6",
@@ -67,13 +80,36 @@ export default function Post({ data }) {
       >
         <View style={{ display: "flex", flexDirection: "row" }}>
           <FontAwesome
-            name="comment-o"
+            name="comment"
             size={24}
-            color="#BDBDBD"
-            onPress={() => navigation.navigate("Comments",{creationTime, url})}
+            color={comments?.length ? "#FF6C00" : "#BDBDBD"}
+            onPress={() =>
+              navigation.navigate("Comments", { creationTime, url })
+            }
           />
-          <Text style={{ ...postStyles.text, color: "#BDBDBD", marginLeft: 8 }}>
-            Num
+          <Text
+            style={
+              comments?.length
+                ? { ...postStyles.text, marginLeft: 8 }
+                : { ...postStyles.text, color: "#BDBDBD", marginLeft: 8 }
+            }
+          >
+            {comments?.length}
+          </Text>
+          <AntDesign
+            name="like2"
+            size={24}
+            color={likes?.length ? "#FF6C00" : "#BDBDBD"}
+            onPress={addLikeFunc}
+          />
+          <Text
+            style={
+              likes?.length
+                ? { ...postStyles.text, marginLeft: 8 }
+                : { ...postStyles.text, color: "#BDBDBD", marginLeft: 8 }
+            }
+          >
+            {likes?.length??0}
           </Text>
         </View>
         <View style={{ display: "flex", flexDirection: "row" }}>
@@ -112,5 +148,13 @@ export const postStyles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     color: "#212121",
+  },
+  bottomNavigation: {
+    height: 40,
+    width: 70,
+    borderRadius: 20,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

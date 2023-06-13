@@ -8,6 +8,9 @@ import {
   addPost,
   getAllPosts,
   delPost,
+  getComments,
+  addComment,
+  addLike,
 } from "./thunks";
 
 export const postsSlice = createSlice({
@@ -47,10 +50,34 @@ export const postsSlice = createSlice({
         state.posts = state.posts.filter(
           (post) => post.creationTime !== action.payload
         );
+      })
+      // .addCase(getComments.pending, (state, action) => {})
+      // .addCase(getComments.rejected, (state, action) => {
+      //   state.comments = action.payload;
+      // })
+      // .addCase(getComments.fulfilled, (state, action) => {
+      //   state.comments = action.payload;
+      // });
+      .addCase(addComment.pending, (state, action) => {})
+      .addCase(addComment.rejected, (state, action) => {})
+      .addCase(addComment.fulfilled, (state, action) => {
+        const [post] = state.posts.filter(
+          (post) => post.creationTime === action.payload.id
+        );
+        post.comments
+          ? post.comments.push(action.payload)
+          : (post.comments = [action.payload]);
+      })
+      .addCase(addLike.pending, (state, action) => {})
+      .addCase(addLike.rejected, (state, action) => {})
+      .addCase(addLike.fulfilled, (state, action) => {
+        const [post] = state.posts.filter(
+          (post) => post.creationTime === action.payload.id
+        );
+        post.likes
+          ? post.likes.push(action.payload.mail)
+          : (post.likes = [action.payload.mail]);
       });
-    // .addCase(addComment.pending, (state, action) => {})
-    // .addCase(addComment.rejected, (state, action) => {})
-    // .addCase(addComment.fulfilled, (state, action) => {});
   },
 });
 

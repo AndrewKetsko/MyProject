@@ -15,7 +15,7 @@ import {
   Dimensions,
 } from "react-native";
 
-export default function Comment({ ind }) {
+export default function Comment({ ind, comment }) {
 
   return (
     <View
@@ -27,7 +27,7 @@ export default function Comment({ ind }) {
         flexDirection: ind % 2 === 0 ? "row" : "row-reverse",
       }}
     >
-      <Image source={{uri:null}} style={commentStyles.image} />
+      <Image source={{ uri: comment.avatar }} style={commentStyles.image} />
       <View
         style={{
           ...commentStyles.textContainer,
@@ -35,11 +35,8 @@ export default function Comment({ ind }) {
           borderTopRightRadius: ind % 2 === 1 ? 0 : 6,
         }}
       >
-        <Text style={commentStyles.text}>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptate,
-          placeat.
-        </Text>
-        <Text style={commentStyles.date}>Comment Date</Text>
+        <Text style={commentStyles.text}>{comment.text}</Text>
+        <Text style={commentStyles.date}>{comment.date}</Text>
       </View>
     </View>
   );

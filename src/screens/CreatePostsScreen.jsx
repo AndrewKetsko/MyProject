@@ -155,7 +155,12 @@ export default function CreatePostsScreen() {
         >
           <View
             style={{
-              ...styles.bottomNavigation,
+              height: 40,
+              width: 70,
+              borderRadius: 20,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
               marginTop: "auto",
               // marginHorizontal: "auto",
               backgroundColor: "#F6F6F6",
@@ -182,7 +187,12 @@ export default function CreatePostsScreen() {
           </View>
           <View
             style={{
-              ...styles.bottomNavigation,
+              height: 40,
+              width: 70,
+              borderRadius: 20,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
               marginTop: "auto",
               // marginHorizontal: "auto",
               backgroundColor: "#F6F6F6",
@@ -230,16 +240,16 @@ export default function CreatePostsScreen() {
           disabled={!haveParam}
           style={
             haveParam
-              ? styles.button
-              : { ...styles.button, backgroundColor: "#F6F6F6" }
+              ? innerStyles.button
+              : { ...innerStyles.button, backgroundColor: "#F6F6F6" }
           }
           onPress={onPostPress}
         >
           <Text
             style={
               haveParam
-                ? styles.buttonText
-                : { ...styles.buttonText, color: "#bdbdbd" }
+                ? innerStyles.buttonText
+                : { ...innerStyles.buttonText, color: "#bdbdbd" }
             }
           >
             Post
@@ -251,6 +261,16 @@ export default function CreatePostsScreen() {
 }
 
 const innerStyles = StyleSheet.create({
+  button: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 100,
+    height: 50,
+    width: null,
+    backgroundColor: "#FF6C00",
+    marginTop: 27,
+  },
   imageContainer: {
     display: "flex",
     justifyContent: "center",

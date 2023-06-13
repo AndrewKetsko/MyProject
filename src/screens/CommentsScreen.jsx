@@ -17,22 +17,42 @@ import { postStyles } from "../components/Post";
 import { useState } from "react";
 import Comment from "../components/Comment";
 import { AntDesign } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../redux/selectors";
+import { useEffect } from "react";
+import { addComment, getComments } from "../redux/thunks";
 
 export default function CommentsScreen({ route }) {
   const id = route.params.creationTime;
   const url = route.params.url;
-  const [comments, setComments] = useState([1, 2, 3, 4, 5]);
+  const photoUri = useSelector((state) => state.user.photoUri);
+  const posts = useSelector((state) => state.posts.posts);
   const [newComment, setNewComment] = useState("");
+
+  const [post] = posts.filter((post) => post.creationTime === id);
+  const comments = post.comments;
+  const dispatch = useDispatch();
+  
+  const setComment = () => {
+    if (!newComment) return;
+    const date = new Date();
+    const data = {
+      id,
+      text: newComment,
+      avatar: photoUri,
+      date: date.getTime(),
+    };
+    dispatch(addComment(data));
+    setNewComment("");
+  };
 
   return (
     <>
       <View style={{ paddingHorizontal: 16, paddingTop: 32 }}>
         <ScrollView>
           <Image style={commentStyles.image} source={{ uri: url }} />
-          {comments.map((el, ind) => (
-            <Comment key={el} ind={ind}></Comment>
+          {comments?.map((el, ind) => (
+            <Comment key={el.date} ind={ind} comment={el}></Comment>
           ))}
         </ScrollView>
         <View
@@ -52,7 +72,12 @@ export default function CommentsScreen({ route }) {
             onChangeText={setNewComment}
           />
           <View style={commentStyles.icon}>
-            <AntDesign name="arrowup" size={24} color="white" />
+            <AntDesign
+              name="arrowup"
+              size={24}
+              color="white"
+              onPress={setComment}
+            />
           </View>
         </View>
       </View>

@@ -10,15 +10,14 @@ import { Octicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { styles } from "../screens/scc";
 // import CommentsScreen from "../../screens/CommentsScreen";
 // import MapScreen from "../../screens/MapScreen";
 import { CustomHeader } from "./CustomHeader";
+import { StyleSheet } from "react-native";
 
 const HomeNav = createBottomTabNavigator();
 
 export default function Home({ route, navigation }) {
-
   return (
     <>
       <HomeNav.Navigator
@@ -121,3 +120,14 @@ export default function Home({ route, navigation }) {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  bottomNavigation: {
+    height: 40,
+    width: 70,
+    borderRadius: 20,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
