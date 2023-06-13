@@ -107,6 +107,7 @@ export default function Home({ route, navigation }) {
                 <CustomHeader title={title} options={options.headerStyle} />
               );
             },
+            tabBarStyle: { display: "none" },
           }}
         />
         <HomeNav.Screen
