@@ -17,6 +17,8 @@ import { CustomHeader } from "./src/components/CustomHeader";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from './src/redux/store';
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./src/firebase/config";
 
 const MainNav = createStackNavigator();
 // const HomeNav = createStackNavigator();
@@ -29,6 +31,11 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
+
+//   onAuthStateChanged(auth, async user => {
+//     console.log('auth', auth);
+//     console.log('user', user);
+// })
 
   return (
     <>

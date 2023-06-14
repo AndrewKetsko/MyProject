@@ -78,7 +78,14 @@ export default function Post({ data }) {
           justifyContent: "space-between",
         }}
       >
-        <View style={{ display: "flex", flexDirection: "row" }}>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <FontAwesome
             name="comment"
             size={24}
@@ -99,6 +106,7 @@ export default function Post({ data }) {
           <AntDesign
             name="like2"
             size={24}
+            style={{ marginLeft: 10 }}
             color={likes?.length ? "#FF6C00" : "#BDBDBD"}
             onPress={addLikeFunc}
           />
@@ -109,10 +117,17 @@ export default function Post({ data }) {
                 : { ...postStyles.text, color: "#BDBDBD", marginLeft: 8 }
             }
           >
-            {likes?.length??0}
+            {likes?.length ?? 0}
           </Text>
         </View>
-        <View style={{ display: "flex", flexDirection: "row" }}>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <AntDesign
             name="enviromento"
             size={24}

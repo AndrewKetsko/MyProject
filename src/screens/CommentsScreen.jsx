@@ -32,7 +32,7 @@ export default function CommentsScreen({ route }) {
   const [post] = posts.filter((post) => post.creationTime === id);
   const comments = post.comments;
   const dispatch = useDispatch();
-  
+
   const setComment = () => {
     if (!newComment) return;
     const date = new Date();
@@ -48,7 +48,15 @@ export default function CommentsScreen({ route }) {
 
   return (
     <>
-      <View style={{ paddingHorizontal: 16, paddingTop: 32 }}>
+      <View
+        style={{
+          paddingHorizontal: 16,
+          paddingTop: 2,
+          display: "flex",
+          flexDirection:'column',
+          justifyContent:'space-between',
+        }}
+      >
         <ScrollView>
           <Image style={commentStyles.image} source={{ uri: url }} />
           {comments?.map((el, ind) => (

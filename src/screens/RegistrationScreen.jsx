@@ -11,6 +11,7 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
+  Dimensions,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import ImageBG from "../PhotoBG.jpg";
@@ -89,8 +90,14 @@ export default function RegistrationScreen() {
     <ImageBackground source={ImageBG} style={styles.imageBG}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          {/* <Image style={styles.image} /> */}
-          <View>
+          <View
+            style={{
+              position: "absolute",
+              // top: 0,
+              left: Dimensions.get("window").width / 2,
+              transform: [{ translateX: -60 }],
+            }}
+          >
             {!getAvatar ? (
               <Image source={{ uri: photoUri }} style={styles.image} />
             ) : (
@@ -127,7 +134,7 @@ export default function RegistrationScreen() {
               <MaterialIcons
                 name="photo-camera"
                 size={24}
-                color={"#BDBDBD"}
+                color={"#FF6C00"}
                 style={styles.icon}
                 onPress={onShot}
               />
@@ -232,7 +239,7 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     paddingHorizontal: 16,
-    paddingTop: 92,
+    paddingTop: 85,
     paddingBottom: 10,
     backgroundColor: "white",
     opacity: 1,
@@ -243,17 +250,17 @@ export const styles = StyleSheet.create({
     backgroundColor: "#F6F6F6",
     position: "absolute",
     top: -60,
-    left: "50%",
+    left: 0,
     borderRadius: 16,
-    transform: [{ translateX: -50 }],
+    // transform: [{ translateX: -50 }],
     // overflow:'hidden',
     // borderWidth: 1,
     // borderStyle: "solid",
   },
   icon: {
     position: "absolute",
-    right: -12,
-    bottom: 14,
+    left: 120-12,
+    bottom: -40,
     zIndex: 100,
   },
   imageBG: {

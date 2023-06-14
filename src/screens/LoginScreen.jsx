@@ -141,7 +141,7 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     paddingHorizontal: 16,
-    paddingTop: 92,
+    paddingTop: 22,
     paddingBottom: 10,
     backgroundColor: "white",
     opacity: 1,

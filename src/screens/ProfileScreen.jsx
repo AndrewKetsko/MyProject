@@ -12,6 +12,7 @@ import {
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
+  Dimensions,
 } from "react-native";
 import ImageBG from "../PhotoBG.jpg";
 import { styles } from "./scc";
@@ -22,11 +23,13 @@ import { useNavigation } from "@react-navigation/native";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Post from "../components/Post";
 import { getPosts, getUser } from "../redux/selectors";
+import { logOutUser } from "../redux/thunks";
 
 export default function ProfileScreen() {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const posts = useSelector(getPosts);
   const { login, photo, uid, email, photoUri } = useSelector(getUser);
@@ -44,14 +47,14 @@ export default function ProfileScreen() {
       <View
         style={{
           position: "relative",
-          marginTop: "auto",
+          marginTop: 120,
           // borderWidth: 1,
           // borderStyle: "solid",
           borderTopLeftRadius: 25,
           borderTopRightRadius: 25,
-          paddingHorizontal: 16,
-          paddingTop: 92,
-          paddingBottom: 10,
+          // paddingHorizontal: 16,
+          paddingTop: 60,
+          paddingBottom: 30,
           backgroundColor: "white",
           opacity: 1,
         }}
@@ -64,9 +67,9 @@ export default function ProfileScreen() {
             backgroundColor: "#F6F6F6",
             position: "absolute",
             top: -60,
-            left: "50%",
+            left: Dimensions.get("window").width / 2,
             borderRadius: 16,
-            transform: [{ translateX: -50 }],
+            transform: [{ translateX: -60 }],
             // overflow:'hidden',
             // borderWidth: 1,
             // borderStyle: "solid",
@@ -82,14 +85,10 @@ export default function ProfileScreen() {
             right: 10,
             top: 10,
           }}
-          onPress={() =>
-            signOut(auth)
-              .then(() => AsyncStorage.clear())
-              .then(() => navigation.navigate("Login"))
-              .catch((error) => {
-                console.log(error.message);
-              })
-          }
+          onPress={() => {
+            dispatch(logOutUser());
+            navigation.navigate("Login");
+          }}
         />
         <Text
           style={{
