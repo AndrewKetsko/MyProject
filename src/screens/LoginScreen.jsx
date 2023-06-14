@@ -17,9 +17,9 @@ import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { delPost } from "../redux/slice";
+import { delPost, updateUserData } from "../redux/slice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/config";
 import { getUserData } from "../firebase/firestore";
 import { loginUser } from "../redux/thunks";
@@ -36,9 +36,21 @@ export default function LoginScreen() {
   const isLoggedIn = useSelector(getLogin);
   const haveParam = email && password;
 
-  useEffect(() => {
-    if (isLoggedIn) navigation.navigate("Home", { screen: "Posts" });
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  // onAuthStateChanged(auth, async (user) => {
+  //   if (user) {
+  //     const uid = user.uid;
+  //     console.log("auth", auth);
+  //     console.log("uid", uid);
+  //     const data = await getUserData(uid);
+  //     dispatch(updateUserData({ ...data, uid }));
+  //     navigation.navigate("Home");
+  //   } else {
+  //     console.log("auth", auth);
+  //     console.log("user is sign out");
+  //   }
+  // });
+  // }, []);
 
   const setFocus = (e) => setFocused(e._dispatchInstances.memoizedProps.name);
   const setBlur = () => setFocused(null);

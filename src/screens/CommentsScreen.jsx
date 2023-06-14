@@ -18,15 +18,15 @@ import { useState } from "react";
 import Comment from "../components/Comment";
 import { AntDesign } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../redux/selectors";
+import { getPosts, getUser } from "../redux/selectors";
 import { useEffect } from "react";
 import { addComment, getComments } from "../redux/thunks";
 
 export default function CommentsScreen({ route }) {
   const id = route.params.creationTime;
   const url = route.params.url;
-  const photoUri = useSelector((state) => state.user.photoUri);
-  const posts = useSelector((state) => state.posts.posts);
+  const { photoUri } = useSelector(getUser);
+  const posts = useSelector(getPosts);
   const [newComment, setNewComment] = useState("");
 
   const [post] = posts.filter((post) => post.creationTime === id);
@@ -53,8 +53,8 @@ export default function CommentsScreen({ route }) {
           paddingHorizontal: 16,
           paddingTop: 2,
           display: "flex",
-          flexDirection:'column',
-          justifyContent:'space-between',
+          flexDirection: "column",
+          justifyContent: "space-between",
         }}
       >
         <ScrollView>

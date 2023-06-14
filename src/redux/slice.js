@@ -93,7 +93,15 @@ export const userSlice = createSlice({
     uid: null,
     isLogin: false,
   },
-  reducers: {},
+  reducers: {
+    updateUserData(state, action) {
+      state.email = action.payload.email;
+      state.login = action.payload.login;
+      state.photoUri = action.payload.url;
+      state.uid = action.payload.uid;
+      state.isLogin = true;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createUser.pending, (state, action) => {})
@@ -126,7 +134,7 @@ export const userSlice = createSlice({
   },
 });
 
-// export const { createUser, loginUser } = userSlice.actions;
+export const { updateUserData } = userSlice.actions;
 export const userReducer = userSlice.reducer;
 
 const persistUserConfig = {
