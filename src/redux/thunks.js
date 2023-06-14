@@ -58,6 +58,7 @@ export const loginUser = createAsyncThunk(
       const data = await getUserData(uid);
       return { ...data, uid };
     } catch (error) {
+      console.log(error.message);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
