@@ -14,9 +14,9 @@ import {
   Keyboard,
   Dimensions,
 } from "react-native";
+import moment from "moment";
 
 export default function Comment({ ind, comment }) {
-
   return (
     <View
       style={{
@@ -36,7 +36,9 @@ export default function Comment({ ind, comment }) {
         }}
       >
         <Text style={commentStyles.text}>{comment.text}</Text>
-        <Text style={commentStyles.date}>{comment.date}</Text>
+        <Text style={commentStyles.date}>
+          {moment(+comment.date).format("D MMMM, YYYY | HH:mm")}
+        </Text>
       </View>
     </View>
   );
