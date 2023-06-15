@@ -1,29 +1,11 @@
-import {
-  Button,
-  TextInput,
-  View,
-  ScrollView,
-  Text,
-  StyleSheet,
-  ImageBackground,
-  Image,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Dimensions,
-} from "react-native";
+import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import moment from "moment";
 
 export default function Comment({ ind, comment }) {
   return (
     <View
       style={{
-        //   maxWidth:'100%',
-        marginTop: 24,
-        display: "flex",
-        gap: 16,
+        ...commentStyles.container,
         flexDirection: ind % 2 === 0 ? "row" : "row-reverse",
       }}
     >
@@ -45,6 +27,11 @@ export default function Comment({ ind, comment }) {
 }
 
 const commentStyles = StyleSheet.create({
+  container: {
+    marginTop: 24,
+    display: "flex",
+    gap: 16,
+  },
   image: {
     height: 28,
     width: 28,
@@ -75,7 +62,6 @@ const commentStyles = StyleSheet.create({
     lineHeight: 12,
     color: "#bdbdbd",
     marginLeft: "auto",
-    // textAlign: "right",
   },
   some: {
     width: 1,

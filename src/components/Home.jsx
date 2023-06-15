@@ -1,21 +1,12 @@
-import { Text, View } from "react-native";
-import {
-  NavigationContainer,
-  getFocusedRouteNameFromRoute,
-  useNavigation,
-} from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { View } from "react-native";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import PostsScreen from "../screens/PostsScreen";
 import CreatePostsScreen from "../screens/CreatePostsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
-import { StatusBar } from "expo-status-bar";
 import { AntDesign } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-// import CommentsScreen from "../../screens/CommentsScreen";
-// import MapScreen from "../../screens/MapScreen";
 import { CustomHeader } from "./CustomHeader";
 import { StyleSheet } from "react-native";
 
@@ -25,79 +16,83 @@ export default function Home({ route, navigation }) {
   const routeName = getFocusedRouteNameFromRoute(route);
 
   const router = (routeName) => {
-    if (routeName==='Posts')
-        {return<>
-            <HomeNav.Screen
-              name="CreatePost"
-              component={CreatePostsScreen}
-              options={{
-                header: ({ navigation, route, options }) => {
-                  const title = route.name;
-                  return (
-                    <CustomHeader title={title} options={options.headerStyle} />
-                  );
-                },
-                tabBarStyle: { display: "none" },
-              }}
-            />
-            <HomeNav.Screen
-              name="Posts"
-              component={PostsScreen}
-              options={{
-                header: ({ navigation, route, options }) => {
-                  const title = route.name;
-                  return (
-                    <CustomHeader title={title} options={options.headerStyle} />
-                  );
-                },
-              }}
-            />
-            <HomeNav.Screen
-              name="Profile"
-              component={ProfileScreen}
-              options={{
-                headerShown: false,
-              }}
-            />
-          </>
-        }
-        else if (routeName==='Profile')
-        {return<>
-            <HomeNav.Screen
-              name="Posts"
-              component={PostsScreen}
-              options={{
-                header: ({ navigation, route, options }) => {
-                  const title = route.name;
-                  return (
-                    <CustomHeader title={title} options={options.headerStyle} />
-                  );
-                },
-              }}
-            />
-            <HomeNav.Screen
-              name="Profile"
-              component={ProfileScreen}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <HomeNav.Screen
-              name="CreatePost"
-              component={CreatePostsScreen}
-              options={{
-                header: ({ navigation, route, options }) => {
-                  const title = route.name;
-                  return (
-                    <CustomHeader title={title} options={options.headerStyle} />
-                  );
-                },
-                tabBarStyle: { display: "none" },
-              }}
-            />
-          </>
-        }
-        else return<>
+    if (routeName === "Posts") {
+      return (
+        <>
+          <HomeNav.Screen
+            name="CreatePost"
+            component={CreatePostsScreen}
+            options={{
+              header: ({ navigation, route, options }) => {
+                const title = route.name;
+                return (
+                  <CustomHeader title={title} options={options.headerStyle} />
+                );
+              },
+              tabBarStyle: { display: "none" },
+            }}
+          />
+          <HomeNav.Screen
+            name="Posts"
+            component={PostsScreen}
+            options={{
+              header: ({ navigation, route, options }) => {
+                const title = route.name;
+                return (
+                  <CustomHeader title={title} options={options.headerStyle} />
+                );
+              },
+            }}
+          />
+          <HomeNav.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+        </>
+      );
+    } else if (routeName === "Profile") {
+      return (
+        <>
+          <HomeNav.Screen
+            name="Posts"
+            component={PostsScreen}
+            options={{
+              header: ({ navigation, route, options }) => {
+                const title = route.name;
+                return (
+                  <CustomHeader title={title} options={options.headerStyle} />
+                );
+              },
+            }}
+          />
+          <HomeNav.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <HomeNav.Screen
+            name="CreatePost"
+            component={CreatePostsScreen}
+            options={{
+              header: ({ navigation, route, options }) => {
+                const title = route.name;
+                return (
+                  <CustomHeader title={title} options={options.headerStyle} />
+                );
+              },
+              tabBarStyle: { display: "none" },
+            }}
+          />
+        </>
+      );
+    } else
+      return (
+        <>
           <HomeNav.Screen
             name="Posts"
             component={PostsScreen}
@@ -131,13 +126,13 @@ export default function Home({ route, navigation }) {
             }}
           />
         </>
-  }
+      );
+  };
   return (
     <>
       <HomeNav.Navigator
         initialRouteName="Posts"
         backBehavior="none"
-        // headerShown='false'
         screenOptions={({ route }) => ({
           tabBarShowLabel: false,
           tabBarIcon: ({ focused }) => {
@@ -199,7 +194,7 @@ export default function Home({ route, navigation }) {
           },
         })}
       >
-       {router(routeName)}
+        {router(routeName)}
       </HomeNav.Navigator>
     </>
   );

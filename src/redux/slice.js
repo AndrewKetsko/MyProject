@@ -18,20 +18,7 @@ export const postsSlice = createSlice({
   initialState: {
     posts: [],
   },
-  reducers: {
-    // addPost(state, action) {
-    //   state.posts.push(action.payload);
-    // },
-    // addAllPosts(state, action) {
-    //   state.posts = action.payload;
-    // },
-    // delPost(state, action) {
-    //   // state.posts=[];
-    // },
-    // addComment(state, action) {
-    //   //todo some
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(addPost.pending, (state, action) => {})
@@ -51,13 +38,6 @@ export const postsSlice = createSlice({
           (post) => post.creationTime !== action.payload
         );
       })
-      // .addCase(getComments.pending, (state, action) => {})
-      // .addCase(getComments.rejected, (state, action) => {
-      //   state.comments = action.payload;
-      // })
-      // .addCase(getComments.fulfilled, (state, action) => {
-      //   state.comments = action.payload;
-      // });
       .addCase(addComment.pending, (state, action) => {})
       .addCase(addComment.rejected, (state, action) => {})
       .addCase(addComment.fulfilled, (state, action) => {
@@ -81,7 +61,6 @@ export const postsSlice = createSlice({
   },
 });
 
-// export const { delPost, addComment } = postsSlice.actions;
 export const postsReducer = postsSlice.reducer;
 
 export const userSlice = createSlice({

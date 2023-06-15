@@ -42,13 +42,6 @@ export const setPost = async (post) => {
   }
 };
 
-// export const getPost = async (id) => {
-//   const getFirestore = await getDoc(doc(fireStore, "posts", id));
-//   if (getFirestore.exists()) {
-//     return getFirestore.data();
-//   }
-// };
-
 export const getAllPostsFirestore = async () => {
   const data = [];
   const querySnapshot = await getDocs(collection(fireStore, "posts"));
@@ -68,13 +61,6 @@ export const deletePost = async (id) => {
     console.log(error.message);
   }
 };
-
-// export const getAllComments = async (id) => {
-//   const getFirestore = await getDoc(doc(fireStore, "comments", id));
-//   if (getFirestore.exists()) {
-//     return getFirestore.data();
-//   }
-// };
 
 export const setComment = async ({ id, ...comment }) => {
   try {

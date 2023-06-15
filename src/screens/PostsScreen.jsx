@@ -1,32 +1,15 @@
 import {
-  Button,
-  TextInput,
   View,
   ScrollView,
   Text,
   StyleSheet,
   ImageBackground,
-  Image,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableWithoutFeedback,
-  Keyboard,
 } from "react-native";
 import Post from "../components/Post";
-// import CommentsScreen from "./CommentsScreen";
-// import MapScreen from "./MapScreen";
-// import { CustomHeader } from "../components/CustomHeader";
-import { useState } from "react";
-import { createStackNavigator } from "@react-navigation/stack";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-// import { getAllPosts } from "../firebase/firestore";
-// import { addAllPosts } from "../redux/slice";
 import { getPosts, getUser } from "../redux/selectors";
 import { getAllPosts } from "../redux/thunks";
-
-// const PostNav = createStackNavigator();
 
 export default function PostsScreen() {
   const dispatch = useDispatch();
@@ -35,10 +18,6 @@ export default function PostsScreen() {
 
   useEffect(() => {
     dispatch(getAllPosts());
-    // (async () => {
-    //   const posts = await getAllPosts();
-    //   dispatch(addAllPosts(posts));
-    // })();
   }, []);
 
   return (
@@ -53,7 +32,10 @@ export default function PostsScreen() {
             }}
           >
             <View>
-              <ImageBackground source={{uri:photoUri}} style={postStyles.image} />
+              <ImageBackground
+                source={{ uri: photoUri }}
+                style={postStyles.image}
+              />
             </View>
             <View>
               <Text style={postStyles.name}>{login}</Text>
@@ -62,7 +44,7 @@ export default function PostsScreen() {
           </View>
         </View>
       ) : (
-        <ScrollView style={{ paddingHorizontal: 16, paddingVertical: 0, marginBottom: 16 }}>
+        <ScrollView style={{ paddingHorizontal: 16, marginBottom: 16 }}>
           {posts.map((el) => (
             <Post key={el.creationTime} data={el}></Post>
           ))}

@@ -102,16 +102,6 @@ export const addPost = createAsyncThunk(
   }
 );
 
-// export const getPost = createAsyncThunk(
-//   "posts/getPost",
-//   async (data, thunkAPI) => {
-//     try {
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   }
-// );
-
 export const getAllPosts = createAsyncThunk(
   "posts/getAllPosts",
   async (data, thunkAPI) => {
@@ -136,19 +126,6 @@ export const delPost = createAsyncThunk(
     }
   }
 );
-
-// export const getComments = createAsyncThunk(
-//   "posts/getComments",
-//   async (data, thunkAPI) => {
-//     try {
-//       const comments = await getAllComments(data);
-//       return comments;
-//     } catch (error) {
-//       return {comments:[], likes:0};
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   }
-// );
 
 export const addComment = createAsyncThunk(
   "posts/addComment",

@@ -1,19 +1,4 @@
-import {
-  Button,
-  TextInput,
-  View,
-  ScrollView,
-  Text,
-  StyleSheet,
-  ImageBackground,
-  Image,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Dimensions,
-} from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
 export default function MapScreen({ navigation, route, options }) {
@@ -31,9 +16,6 @@ export default function MapScreen({ navigation, route, options }) {
           longitudeDelta: 0.0421,
         }}
         mapType="standard"
-        // minZoomLevel={15}
-        // onMapReady={() => console.log("Map is ready")}
-        // onRegionChange={() => console.log("Region change")}
       >
         <Marker
           title={route.params.name}

@@ -1,36 +1,24 @@
 import {
-  Button,
   TextInput,
   View,
   ScrollView,
-  Text,
   StyleSheet,
-  ImageBackground,
   Image,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableWithoutFeedback,
-  Keyboard,
 } from "react-native";
-import { postStyles } from "../components/Post";
 import { useState } from "react";
 import Comment from "../components/Comment";
 import { AntDesign } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getPosts, getUser } from "../redux/selectors";
-import { useEffect } from "react";
+import { getPost, getPosts, getUser } from "../redux/selectors";
 import { addComment, getComments } from "../redux/thunks";
 
 export default function CommentsScreen({ route }) {
   const id = route.params.creationTime;
   const url = route.params.url;
   const { photoUri } = useSelector(getUser);
-  const posts = useSelector(getPosts);
+  const comments = useSelector(getPost(id));
   const [newComment, setNewComment] = useState("");
 
-  const [post] = posts.filter((post) => post.creationTime === id);
-  const comments = post.comments;
   const dispatch = useDispatch();
 
   const setComment = () => {
@@ -48,15 +36,7 @@ export default function CommentsScreen({ route }) {
 
   return (
     <>
-      <View
-        style={{
-          paddingHorizontal: 16,
-          paddingTop: 2,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }}
-      >
+      <View style={commentStyles.container}>
         <ScrollView>
           <Image style={commentStyles.image} source={{ uri: url }} />
           {comments?.map((el, ind) => (
@@ -97,7 +77,6 @@ const commentStyles = StyleSheet.create({
   input: {
     fontFamily: "Roboto",
     fontStyle: "normal",
-    // fontWeight: 500,
     fontSize: 16,
     lineHeight: 19,
     height: 50,
@@ -126,6 +105,12 @@ const commentStyles = StyleSheet.create({
     position: "absolute",
     right: 8,
     top: 24,
-    // transform: [{ translateY: 50 }],
+  },
+  container: {
+    paddingHorizontal: 16,
+    paddingTop: 2,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
 });

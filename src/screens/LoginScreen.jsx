@@ -1,30 +1,25 @@
 import {
-  Button,
   TextInput,
   View,
   Text,
   StyleSheet,
   ImageBackground,
-  Image,
   TouchableOpacity,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 import ImageBG from "../PhotoBG.jpg";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { delPost, updateUserData } from "../redux/slice";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { updateUserData } from "../redux/slice";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/config";
 import { getUserData } from "../firebase/firestore";
 import { loginUser } from "../redux/thunks";
 import { useEffect } from "react";
-import { getLogin } from "../redux/selectors";
 
 export default function LoginScreen() {
   const [passwordVisible, setPasswordVisible] = useState(true);
@@ -34,7 +29,6 @@ export default function LoginScreen() {
   const [isLogged, setIsLogged] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(getLogin);
   const haveParam = email && password;
 
   useEffect(() => {
@@ -68,7 +62,6 @@ export default function LoginScreen() {
       {isLogged && (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
-            {/* <Image style={styles.image} /> */}
             <Text style={styles.header}>Login</Text>
             <KeyboardAvoidingView
               behavior={Platform.OS == "ios" ? "padding" : "height"}
@@ -152,8 +145,6 @@ export const styles = StyleSheet.create({
   container: {
     position: "relative",
     marginTop: "auto",
-    // borderWidth: 1,
-    // borderStyle: "solid",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     paddingHorizontal: 16,
@@ -171,9 +162,6 @@ export const styles = StyleSheet.create({
     left: "50%",
     borderRadius: 16,
     transform: [{ translateX: -50 }],
-    // overflow:'hidden',
-    // borderWidth: 1,
-    // borderStyle: "solid",
   },
   icon: {
     position: "absolute",
@@ -185,13 +173,11 @@ export const styles = StyleSheet.create({
     flex: 1,
     width: null,
     height: null,
-    // opacity: 0.6
   },
   input: {
     height: 50,
     width: null,
     backgroundColor: "#F6F6F6",
-    // border: 1 'solid' '#E8E8E8',
     borderWidth: 1,
     borderStyle: "solid",
     borderRadius: 8,
@@ -200,22 +186,18 @@ export const styles = StyleSheet.create({
     padding: 15,
     fontFamily: "Roboto",
     fontStyle: "normal",
-    // fontWeight: 400,
     fontSize: 16,
     lineHeight: 19,
     color: "#BDBDBD",
   },
   header: {
-    // width: 160,
     height: 35,
-    // left: calc((50 % -160) / 2 + 0.5),
     fontFamily: "Roboto",
     fontStyle: "normal",
     fontWeight: 500,
     fontSize: 30,
     lineHeight: 35,
     textAlign: "center",
-    // letterSpacing: 0.01em,
     color: "#212121",
     marginBottom: 33,
   },
@@ -262,8 +244,6 @@ export const styles = StyleSheet.create({
   },
   customHeader: {
     position: "relative",
-    // display: "flex",
-    // flexDirection: "row",
     paddingVertical: 11,
     borderBottomWidth: 1,
     borderColor: "#BDBDBD",

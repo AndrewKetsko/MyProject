@@ -3,7 +3,6 @@ import {
   View,
   ScrollView,
   StyleSheet,
-  Image,
   ImageBackground,
   TouchableOpacity,
   Keyboard,
@@ -17,13 +16,8 @@ import { useEffect, useState } from "react";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
-import { styles } from "./scc";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-// import { addPost } from "../redux/slice";
-import { setStorage } from "../firebase/storage";
-import * as FileSystem from "expo-file-system";
-import { setPost } from "../firebase/firestore";
 import { getEmail, getUid } from "../redux/selectors";
 import { addPost } from "../redux/thunks";
 
@@ -39,9 +33,8 @@ export default function CreatePostsScreen() {
 
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  // const uid = useSelector(getUid);
   const email = useSelector(getEmail);
-  // console.log(email);
+
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -56,7 +49,6 @@ export default function CreatePostsScreen() {
       if (status !== "granted") {
         console.log("Permission to access location was denied");
       }
-
       let location = await Location.getCurrentPositionAsync({});
       const coords = {
         latitude: location.coords.latitude,
@@ -69,16 +61,6 @@ export default function CreatePostsScreen() {
   useEffect(() => {
     setHaveParam(photoUri && !!name && !!location);
   }, [photoUri, name, location]);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     if (cameraRef) {
-  //       // console.log(cameraRef);
-  //       const camRatios = await cameraRef.getSupportedRatiosAsync();
-  //       console.log(camRatios);
-  //     }
-  //   })();
-  // }, [cameraRef]);
 
   if (permission === null) {
     return <View />;
@@ -118,17 +100,7 @@ export default function CreatePostsScreen() {
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <ScrollView
-        style={{
-          paddingHorizontal: 16,
-          paddingTop: 16,
-          paddingBottom: 25,
-          // marginBottom: 20,
-          backgroundColor: "white",
-          height: "100%",
-          display: "flex",
-        }}
-      >
+      <ScrollView style={innerStyles.container}>
         {photoUri ? (
           <ImageBackground
             style={innerStyles.imageContainer}
@@ -155,31 +127,10 @@ export default function CreatePostsScreen() {
             </View>
           </Camera>
         )}
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginTop: 10,
-          }}
-        >
-          <View
-            style={{
-              height: 40,
-              width: 70,
-              borderRadius: 20,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: "auto",
-              // marginHorizontal: "auto",
-              backgroundColor: "#F6F6F6",
-              alignSelf: "center",
-            }}
-          >
+        <View style={innerStyles.buttonsContainer}>
+          <View style={innerStyles.smallButton}>
             <MaterialIcons
               name="flip-camera-android"
-              // disabled={photoUri}
               size={24}
               color={photoUri ? "#bdbdbd" : "black"}
               onPress={
@@ -195,20 +146,7 @@ export default function CreatePostsScreen() {
               }
             />
           </View>
-          <View
-            style={{
-              height: 40,
-              width: 70,
-              borderRadius: 20,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: "auto",
-              // marginHorizontal: "auto",
-              backgroundColor: "#F6F6F6",
-              alignSelf: "center",
-            }}
-          >
+          <View style={innerStyles.smallButton}>
             <AntDesign
               name="delete"
               size={24}
@@ -271,6 +209,31 @@ export default function CreatePostsScreen() {
 }
 
 const innerStyles = StyleSheet.create({
+  buttonsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 10,
+  },
+  smallButton: {
+    height: 40,
+    width: 70,
+    borderRadius: 20,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "auto",
+    backgroundColor: "#F6F6F6",
+    alignSelf: "center",
+  },
+  container: {
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 25,
+    backgroundColor: "white",
+    height: "100%",
+    display: "flex",
+  },
   button: {
     display: "flex",
     justifyContent: "center",
@@ -290,7 +253,6 @@ const innerStyles = StyleSheet.create({
     borderStyle: "solid",
     borderWidth: 1,
     height: 240,
-    // border: 1px solid #E8E8E8,
     borderRadius: 8,
   },
   photoIcon: {

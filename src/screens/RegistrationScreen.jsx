@@ -1,5 +1,4 @@
 import {
-  Button,
   TextInput,
   View,
   Text,
@@ -18,13 +17,9 @@ import ImageBG from "../PhotoBG.jpg";
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
-import { useDispatch, useSelector } from "react-redux";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase/config";
-import { registerUser } from "../firebase/firestore";
+import { useDispatch } from "react-redux";
 import { createUser } from "../redux/thunks";
 import { useEffect } from "react";
-import { getLogin } from "../redux/selectors";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -38,14 +33,10 @@ export default function RegistrationScreen() {
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  // const isLoggedIn = useSelector(getLogin);
   const [permission, setPermission] = useState(null);
   const [getAvatar, setGetAvatar] = useState(false);
   const [cameraRef, setCameraRef] = useState(null);
-
-  // useEffect(() => {
-  //   if (isLoggedIn) navigation.navigate("Home", { screen: "Posts" });
-  // }, [isLoggedIn]);
+  const [haveParam, setHaveParam] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -55,11 +46,13 @@ export default function RegistrationScreen() {
     })();
   }, []);
 
+  useEffect(() => {
+    setHaveParam(login && email && password);
+  }, [login, email, password]);
+
   if (permission === null) {
     return <View />;
   }
-
-  const haveParam = email && password && login;
 
   const setFocus = (e) => setFocused(e._dispatchInstances.memoizedProps.name);
 
@@ -90,14 +83,7 @@ export default function RegistrationScreen() {
     <ImageBackground source={ImageBG} style={styles.imageBG}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <View
-            style={{
-              position: "absolute",
-              // top: 0,
-              left: Dimensions.get("window").width / 2,
-              transform: [{ translateX: -60 }],
-            }}
-          >
+          <View style={styles.avatarContainer}>
             {!getAvatar ? (
               <Image source={{ uri: photoUri }} style={styles.image} />
             ) : (
@@ -236,8 +222,6 @@ export const styles = StyleSheet.create({
   container: {
     position: "relative",
     marginTop: "auto",
-    // borderWidth: 1,
-    // borderStyle: "solid",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     paddingHorizontal: 16,
@@ -245,6 +229,11 @@ export const styles = StyleSheet.create({
     paddingBottom: 10,
     backgroundColor: "white",
     opacity: 1,
+  },
+  avatarContainer: {
+    position: "absolute",
+    left: Dimensions.get("window").width / 2,
+    transform: [{ translateX: -60 }],
   },
   image: {
     height: 120,
@@ -254,14 +243,10 @@ export const styles = StyleSheet.create({
     top: -60,
     left: 0,
     borderRadius: 16,
-    // transform: [{ translateX: -50 }],
-    // overflow:'hidden',
-    // borderWidth: 1,
-    // borderStyle: "solid",
   },
   icon: {
     position: "absolute",
-    left: 120-12,
+    left: 120 - 12,
     bottom: -40,
     zIndex: 100,
   },
@@ -269,13 +254,11 @@ export const styles = StyleSheet.create({
     flex: 1,
     width: null,
     height: null,
-    // opacity: 0.6
   },
   input: {
     height: 50,
     width: null,
     backgroundColor: "#F6F6F6",
-    // border: 1 'solid' '#E8E8E8',
     borderWidth: 1,
     borderStyle: "solid",
     borderRadius: 8,
@@ -284,22 +267,18 @@ export const styles = StyleSheet.create({
     padding: 15,
     fontFamily: "Roboto",
     fontStyle: "normal",
-    // fontWeight: 400,
     fontSize: 16,
     lineHeight: 19,
     color: "#BDBDBD",
   },
   header: {
-    // width: 160,
     height: 35,
-    // left: calc((50 % -160) / 2 + 0.5),
     fontFamily: "Roboto",
     fontStyle: "normal",
     fontWeight: 500,
     fontSize: 30,
     lineHeight: 35,
     textAlign: "center",
-    // letterSpacing: 0.01em,
     color: "#212121",
     marginBottom: 33,
   },
@@ -346,8 +325,6 @@ export const styles = StyleSheet.create({
   },
   customHeader: {
     position: "relative",
-    // display: "flex",
-    // flexDirection: "row",
     paddingVertical: 11,
     borderBottomWidth: 1,
     borderColor: "#BDBDBD",

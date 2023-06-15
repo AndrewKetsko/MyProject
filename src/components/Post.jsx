@@ -1,19 +1,4 @@
-import {
-  Button,
-  TextInput,
-  View,
-  ScrollView,
-  Text,
-  StyleSheet,
-  ImageBackground,
-  Image,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Dimensions,
-} from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -23,6 +8,9 @@ import { addLike, delPost } from "../redux/thunks";
 
 export default function Post({ data }) {
   const navigation = useNavigation();
+  const accEmail = useSelector(getEmail);
+  const dispatch = useDispatch();
+
   const {
     geoLocation,
     location,
@@ -33,9 +21,6 @@ export default function Post({ data }) {
     comments,
     likes,
   } = data;
-
-  const accEmail = useSelector(getEmail);
-  const dispatch = useDispatch();
 
   const delPostFunc = () => {
     dispatch(delPost(creationTime));
@@ -50,18 +35,7 @@ export default function Post({ data }) {
     <View style={postStyles.container}>
       <Image style={postStyles.image} source={{ uri: url }} />
       {accEmail === email && (
-        <View
-          style={{
-            ...postStyles.bottomNavigation,
-            // marginTop: "auto",
-            // marginHorizontal: "auto",
-            backgroundColor: "#F6F6F6",
-            alignSelf: "center",
-            position: "absolute",
-            top: 5,
-            left: 5,
-          }}
-        >
+        <View style={postStyles.bottomNavigation}>
           <AntDesign
             name="delete"
             size={24}
@@ -78,14 +52,7 @@ export default function Post({ data }) {
           justifyContent: "space-between",
         }}
       >
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <View style={postStyles.viewStyle}>
           <FontAwesome
             name="comment"
             size={24}
@@ -120,14 +87,7 @@ export default function Post({ data }) {
             {likes?.length ?? 0}
           </Text>
         </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <View style={postStyles.viewStyle}>
           <AntDesign
             name="enviromento"
             size={24}
@@ -169,6 +129,17 @@ export const postStyles = StyleSheet.create({
     width: 70,
     borderRadius: 20,
     display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F6F6F6",
+    alignSelf: "center",
+    position: "absolute",
+    top: 5,
+    left: 5,
+  },
+  viewStyle: {
+    display: "flex",
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
   },
