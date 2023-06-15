@@ -31,10 +31,13 @@ export const createUser = createAsyncThunk(
       );
       const user = userCredential.user;
       const uid = user.uid;
-      const response = await fetch(photoUri);
-      const file = await response.blob();
-      const { creationTime } = await MediaLibrary.createAssetAsync(photoUri);
-      const url = await setStorage({ folder: "avatar", creationTime, file });
+      const url = null;
+      if (photoUri) {
+        const response = await fetch(photoUri);
+        const file = await response.blob();
+        const { creationTime } = await MediaLibrary.createAssetAsync(photoUri);
+        const url = await setStorage({ folder: "avatar", creationTime, file });
+      }
       await registerUser({ login, email, url, uid });
       const data = await getUserData(uid);
       return { ...data, uid };

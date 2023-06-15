@@ -70,6 +70,16 @@ export default function CreatePostsScreen() {
     setHaveParam(photoUri && !!name && !!location);
   }, [photoUri, name, location]);
 
+  // useEffect(() => {
+  //   (async () => {
+  //     if (cameraRef) {
+  //       // console.log(cameraRef);
+  //       const camRatios = await cameraRef.getSupportedRatiosAsync();
+  //       console.log(camRatios);
+  //     }
+  //   })();
+  // }, [cameraRef]);
+
   if (permission === null) {
     return <View />;
   }
@@ -106,7 +116,6 @@ export default function CreatePostsScreen() {
       setPhotoUri(uri);
     }
   };
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <ScrollView
@@ -132,6 +141,7 @@ export default function CreatePostsScreen() {
             style={innerStyles.imageContainer}
             type={type}
             ref={setCameraRef}
+            ratio="1:1"
           >
             <View>
               <View style={innerStyles.photoIcon}>
