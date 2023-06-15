@@ -15,13 +15,19 @@ export const registerUser = async ({ url, login, email, uid }) => {
   const db_obj = { login, email, url };
   try {
     const docRef = await setDoc(doc(fireStore, "users", uid), db_obj);
-  } catch (error) {}
+  } catch (error) {
+    console.log("set firebase ", error.message);
+  }
 };
 
 export const getUserData = async (id) => {
-  const getFirestore = await getDoc(doc(fireStore, "users", id));
-  if (getFirestore.exists()) {
-    return getFirestore.data();
+  try {
+    const getFirestore = await getDoc(doc(fireStore, "users", id));
+    if (getFirestore.exists()) {
+      return getFirestore.data();
+    }
+  } catch (error) {
+    console.log('get user data ', error.message)
   }
 };
 

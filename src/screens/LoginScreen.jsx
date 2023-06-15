@@ -40,14 +40,10 @@ export default function LoginScreen() {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const uid = user.uid;
-        console.log("auth", auth);
-        console.log("uid", uid);
         const data = await getUserData(uid);
         dispatch(updateUserData({ ...data, uid }));
         navigation.navigate("Home");
       } else {
-        console.log("auth", auth);
-        console.log("user is sign out");
         navigation.navigate("Login");
       }
     });
@@ -83,6 +79,8 @@ export default function LoginScreen() {
               name="email"
               placeholderTextColor={"#BDBDBD"}
               textContentType="emailAddress"
+              autoComplete="email"
+              inputMode="email"
               value={email}
               onChangeText={setEmail}
               onFocus={setFocus}

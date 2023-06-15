@@ -169,6 +169,8 @@ export default function RegistrationScreen() {
               name="email"
               placeholderTextColor={"#BDBDBD"}
               textContentType="emailAddress"
+              autoComplete="email"
+              inputMode="email"
               value={email}
               onChangeText={setEmail}
               onFocus={setFocus}

@@ -31,18 +31,18 @@ export const createUser = createAsyncThunk(
       );
       const user = userCredential.user;
       const uid = user.uid;
-      const url = null;
+      let url = null;
       if (photoUri) {
         const response = await fetch(photoUri);
         const file = await response.blob();
         const { creationTime } = await MediaLibrary.createAssetAsync(photoUri);
-        const url = await setStorage({ folder: "avatar", creationTime, file });
+        url = await setStorage({ folder: "avatar", creationTime, file });
       }
       await registerUser({ login, email, url, uid });
       const data = await getUserData(uid);
       return { ...data, uid };
     } catch (error) {
-      console.log(error.message);
+      console.log('register ',error.message);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
