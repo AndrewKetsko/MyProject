@@ -36,21 +36,22 @@ export default function LoginScreen() {
   const isLoggedIn = useSelector(getLogin);
   const haveParam = email && password;
 
-  // useEffect(() => {
-  // onAuthStateChanged(auth, async (user) => {
-  //   if (user) {
-  //     const uid = user.uid;
-  //     console.log("auth", auth);
-  //     console.log("uid", uid);
-  //     const data = await getUserData(uid);
-  //     dispatch(updateUserData({ ...data, uid }));
-  //     navigation.navigate("Home");
-  //   } else {
-  //     console.log("auth", auth);
-  //     console.log("user is sign out");
-  //   }
-  // });
-  // }, []);
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const uid = user.uid;
+        console.log("auth", auth);
+        console.log("uid", uid);
+        const data = await getUserData(uid);
+        dispatch(updateUserData({ ...data, uid }));
+        navigation.navigate("Home");
+      } else {
+        console.log("auth", auth);
+        console.log("user is sign out");
+        navigation.navigate("Login");
+      }
+    });
+  }, []);
 
   const setFocus = (e) => setFocused(e._dispatchInstances.memoizedProps.name);
   const setBlur = () => setFocused(null);
