@@ -31,6 +31,7 @@ export default function LoginScreen() {
   const [focused, setFocused] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLogged, setIsLogged] = useState(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(getLogin);
@@ -43,8 +44,10 @@ export default function LoginScreen() {
         const data = await getUserData(uid);
         dispatch(updateUserData({ ...data, uid }));
         navigation.navigate("Home");
+        setIsLogged(true);
       } else {
         navigation.navigate("Login");
+        setIsLogged(true);
       }
     });
   }, []);
@@ -62,79 +65,81 @@ export default function LoginScreen() {
 
   return (
     <ImageBackground source={ImageBG} style={styles.imageBG}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          {/* <Image style={styles.image} /> */}
-          <Text style={styles.header}>Login</Text>
-          <KeyboardAvoidingView
-            behavior={Platform.OS == "ios" ? "padding" : "height"}
-          >
-            <TextInput
-              style={
-                focused === "email"
-                  ? { ...styles.input, ...styles.focus }
-                  : { ...styles.input }
-              }
-              placeholder="Email"
-              name="email"
-              placeholderTextColor={"#BDBDBD"}
-              textContentType="emailAddress"
-              autoComplete="email"
-              inputMode="email"
-              value={email}
-              onChangeText={setEmail}
-              onFocus={setFocus}
-              onBlur={setBlur}
-            />
-            <View style={{ position: "relative" }}>
+      {isLogged && (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+            {/* <Image style={styles.image} /> */}
+            <Text style={styles.header}>Login</Text>
+            <KeyboardAvoidingView
+              behavior={Platform.OS == "ios" ? "padding" : "height"}
+            >
               <TextInput
                 style={
-                  focused === "password"
+                  focused === "email"
                     ? { ...styles.input, ...styles.focus }
                     : { ...styles.input }
                 }
-                placeholder="Password"
-                name="password"
+                placeholder="Email"
+                name="email"
                 placeholderTextColor={"#BDBDBD"}
-                textContentType="password"
-                secureTextEntry={passwordVisible}
-                value={password}
-                onChangeText={setPassword}
+                textContentType="emailAddress"
+                autoComplete="email"
+                inputMode="email"
+                value={email}
+                onChangeText={setEmail}
                 onFocus={setFocus}
                 onBlur={setBlur}
               />
-              <Entypo
-                name={passwordVisible ? "eye" : "eye-with-line"}
-                size={24}
-                color="#212121"
-                style={{
-                  position: "absolute",
-                  right: 12,
-                  top: 12,
-                }}
-                onPress={() => setPasswordVisible((prev) => !prev)}
-              />
-            </View>
-          </KeyboardAvoidingView>
-          <TouchableOpacity
-            style={
-              haveParam
-                ? styles.button
-                : { ...styles.button, backgroundColor: "#bdbdbd" }
-            }
-            onPress={onPress}
-            disabled={!haveParam}
-          >
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
-          <View style={styles.bottomText}>
-            <Text style={styles.text}>Dont have account? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-              <Text style={styles.text}>Register</Text>
+              <View style={{ position: "relative" }}>
+                <TextInput
+                  style={
+                    focused === "password"
+                      ? { ...styles.input, ...styles.focus }
+                      : { ...styles.input }
+                  }
+                  placeholder="Password"
+                  name="password"
+                  placeholderTextColor={"#BDBDBD"}
+                  textContentType="password"
+                  secureTextEntry={passwordVisible}
+                  value={password}
+                  onChangeText={setPassword}
+                  onFocus={setFocus}
+                  onBlur={setBlur}
+                />
+                <Entypo
+                  name={passwordVisible ? "eye" : "eye-with-line"}
+                  size={24}
+                  color="#212121"
+                  style={{
+                    position: "absolute",
+                    right: 12,
+                    top: 12,
+                  }}
+                  onPress={() => setPasswordVisible((prev) => !prev)}
+                />
+              </View>
+            </KeyboardAvoidingView>
+            <TouchableOpacity
+              style={
+                haveParam
+                  ? styles.button
+                  : { ...styles.button, backgroundColor: "#bdbdbd" }
+              }
+              onPress={onPress}
+              disabled={!haveParam}
+            >
+              <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
+            <View style={styles.bottomText}>
+              <Text style={styles.text}>Dont have account? </Text>
+              <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+                <Text style={styles.text}>Register</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      )}
     </ImageBackground>
   );
 }
