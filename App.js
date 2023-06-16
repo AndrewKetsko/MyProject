@@ -1,41 +1,26 @@
-//com.reactnativecommunity.asyncstorage
-
-
 import "react-native-gesture-handler";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
 import RegistrationScreen from "./src/screens/RegistrationScreen";
 import { useFonts } from "expo-font";
 import LoginScreen from "./src/screens/LoginScreen";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer} from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from "./src/components/Home";
 import CommentsScreen from "./src/screens/CommentsScreen";
 import MapScreen from "./src/screens/MapScreen";
-import { MaterialIcons } from "@expo/vector-icons";
 import { CustomHeader } from "./src/components/CustomHeader";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from './src/redux/store';
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./src/firebase/config";
 
 const MainNav = createStackNavigator();
-// const HomeNav = createStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
     'Roboto': require('./src/fonts/Roboto-Regular.ttf'),
   });
-  // const navigation = useNavigation();
   if (!fontsLoaded) {
     return null;
   }
-
-//   onAuthStateChanged(auth, async user => {
-//     console.log('auth', auth);
-//     console.log('user', user);
-// })
 
   return (
     <>
@@ -74,7 +59,6 @@ export default function App() {
               <MainNav.Screen
                 name="Map"
                 component={MapScreen}
-                // geoLocation={params=>params.geoLocation}
                 options={{
                   header: ({ navigation, route, options }) => {
                     const title = route.name;

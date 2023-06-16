@@ -15,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Entypo } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserData } from "../redux/slice";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/config";
 import { getUserData } from "../firebase/firestore";
 import { loginUser } from "../redux/thunks";

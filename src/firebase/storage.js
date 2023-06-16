@@ -1,12 +1,8 @@
 import { storage } from "./config";
 import {
-  getBytes,
   getDownloadURL,
-  getMetadata,
-  getStorage,
   ref,
   uploadBytes,
-  uploadString,
 } from "firebase/storage";
 
 export const setStorage = async ({ folder, creationTime, file }) => {

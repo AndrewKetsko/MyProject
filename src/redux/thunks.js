@@ -7,8 +7,6 @@ import {
 import { auth } from "../firebase/config";
 import {
   deletePost,
-  getAllComments,
-  getAllPComments,
   getAllPostsFirestore,
   getUserData,
   registerUser,
@@ -118,7 +116,6 @@ export const delPost = createAsyncThunk(
   "posts/delPost",
   async (data, thunkAPI) => {
     try {
-      console.log("in chunk", data);
       await deletePost(data);
       return data;
     } catch (error) {

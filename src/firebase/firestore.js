@@ -46,15 +46,12 @@ export const getAllPostsFirestore = async () => {
   const data = [];
   const querySnapshot = await getDocs(collection(fireStore, "posts"));
   querySnapshot.forEach((doc) => {
-    // console.log(doc.id, "=>", doc.data());
     data.push(doc.data());
   });
-  // console.log("data=>", data);
   return data;
 };
 
 export const deletePost = async (id) => {
-  console.log("in fire", id);
   try {
     await deleteDoc(doc(fireStore, "posts", `${id}`));
   } catch (error) {

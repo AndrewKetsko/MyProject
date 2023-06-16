@@ -1,16 +1,10 @@
-import {
-  TextInput,
-  View,
-  ScrollView,
-  StyleSheet,
-  Image,
-} from "react-native";
+import { TextInput, View, ScrollView, StyleSheet, Image } from "react-native";
 import { useState } from "react";
 import Comment from "../components/Comment";
 import { AntDesign } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { getPost, getPosts, getUser } from "../redux/selectors";
-import { addComment, getComments } from "../redux/thunks";
+import { getPost, getUser } from "../redux/selectors";
+import { addComment } from "../redux/thunks";
 
 export default function CommentsScreen({ route }) {
   const id = route.params.creationTime;

@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 import {
-  persistReducer,
   persistStore,
   FLUSH,
   REHYDRATE,
@@ -9,7 +8,6 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { pesistUserReducer, pesistPostReducer, postsReducer } from "./slice";
 
 export const store = configureStore({

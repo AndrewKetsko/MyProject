@@ -8,7 +8,6 @@ import {
   addPost,
   getAllPosts,
   delPost,
-  getComments,
   addComment,
   addLike,
 } from "./thunks";

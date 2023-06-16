@@ -18,7 +18,7 @@ import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-import { getEmail, getUid } from "../redux/selectors";
+import { getEmail } from "../redux/selectors";
 import { addPost } from "../redux/thunks";
 
 export default function CreatePostsScreen() {
@@ -47,7 +47,6 @@ export default function CreatePostsScreen() {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        console.log("Permission to access location was denied");
       }
       let location = await Location.getCurrentPositionAsync({});
       const coords = {
